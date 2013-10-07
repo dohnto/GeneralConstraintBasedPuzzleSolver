@@ -24,8 +24,8 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
      * @param range     Allowed range of variables' values
      * @return List of variables with assigned values representing the solution.
      */
-    public ArrayList solve(int maxIterations) {                                        
-        
+    @Override
+    public ArrayList solve(int maxIterations) {                                                
         // Initial puzzle state - randomly initializaes the variables
         stateManager.Initialize(variables, values);        
         

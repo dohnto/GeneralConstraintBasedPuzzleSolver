@@ -12,7 +12,9 @@ public abstract class ConstraintBasedLocalSearch {
     protected ArrayList<Integer>  variables = new ArrayList<>();    // variables
     protected Range               values    = new Range(0, 0);      // values range
     
+    
     /* METHODS */
+    public abstract ArrayList solve(int maxIterations);                                        
     
     /**
      * Cosntructor
