@@ -3,9 +3,6 @@ package gps;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.logging.Level;
-
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import gps.solver.*;
 import gps.statemanager.*;
@@ -113,7 +110,7 @@ public class GeneralPuzzleSolver {
 		Boolean retval = true;
 		int c;
 		String arg;
-		String level = new String();
+		String level = null;
 
 		Getopt g = new Getopt(progname, argv, "hp:l:r:m:");
 		g.setOpterr(false); // We'll do our own error handling

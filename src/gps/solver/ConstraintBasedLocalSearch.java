@@ -16,7 +16,7 @@ public abstract class ConstraintBasedLocalSearch {
     // TODO remove values
     
     /* METHODS */
-    public abstract ArrayList solve(int maxIterations);                                        
+    public abstract ArrayList<Integer> solve(int maxIterations);                                        
     
     /**
      * Cosntructor
