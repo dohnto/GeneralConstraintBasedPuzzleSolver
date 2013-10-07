@@ -20,6 +20,7 @@ public class GeneralPuzzleSolver {
 	private static int rounds = 20;
 	private static String puzzleLevelS;
 	private static int puzzleLevelInt;
+	private static int MAX_STEPS = 100000;
 
 	public static void main(String[] args) throws Exception {
 		// TODO - delete - just test
@@ -58,7 +59,7 @@ public class GeneralPuzzleSolver {
 		ArrayList<Double> qualities = new ArrayList<Double>();
 		for (int i = 0; i < rounds; i++) {
 			solver.reset();
-			ArrayList<Integer> state = solver.solve(10000);
+			ArrayList<Integer> state = solver.solve(MAX_STEPS);
 			steps.add(solver.getStep());
 			qualities.add(solver.evaluateState(state));
 			System.out
