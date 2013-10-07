@@ -35,11 +35,6 @@ public class GeneralPuzzleSolver {
 		ConstraintBasedLocalSearch solver = chooseSolver();
 
 		solve(solver, rounds);
-		for (int i = 0; i < rounds; i++) {
-			// GraphColorSA solver = new
-			// GraphColorSA("./test/graph-color-1.txt");
-			// solver.solve();
-		}
 	}
 
 	public static ConstraintBasedLocalSearch chooseSolver() throws Exception {
