@@ -15,23 +15,9 @@ public class GeneralPuzzleSolver {
 	// name of program
 	final private static String progname = "GeneralPuzzleSolver";
 
-	// puzzle enum
-	private static int PUZZLE_KQ = 0;
-	private static String PUZZLE_KQ_KEY = "KQ";
-	private static int PUZZLE_GC = 1;
-	private static String PUZZLE_GC_KEY = "GC";
-	private static int PUZZLE_XX = 2;
-	private static String PUZZLE_XX_KEY = "XX";
-
-	// method enum
-	private static int METHOD_MC = 0;
-	private static String METHOD_MC_KEY = "MC";
-	private static int METHOD_SA = 1;
-	private static String METHOD_SA_KEY = "SA";
-
-	private static int puzzle = -1;
+	private static Puzzle puzzle = Puzzle.GraphColoring;
+	private static Method method = Method.MinimumConflicts;
 	private static int rounds = 20;
-	private static int method = METHOD_MC;
 	private static String puzzleLevelS;
 	private static int puzzleLevelInt;
 
@@ -40,15 +26,6 @@ public class GeneralPuzzleSolver {
 		// KQueensMC kqMC = new KQueensMC(10, new Range(5, 12));
 		// kqMC.solve(1000);
 		// kqMC.printVariables();
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		list.add(2);
-		list.add(4);
-		list.add(4);
-		list.add(4);
-		list.add(5);
-		list.add(5);
-		list.add(7);
-		list.add(9);
 
 		if (!parseCmdParams(args)) {
 			usage(progname);
@@ -66,11 +43,11 @@ public class GeneralPuzzleSolver {
 	}
 
 	public static ConstraintBasedLocalSearch chooseSolver() throws Exception {
-		if (puzzle == PUZZLE_GC) {
-			return (method == METHOD_SA) ? new GraphColorSA(puzzleLevelS)
-					: new GraphColorMC(puzzleLevelInt, new Range(0,
-							puzzleLevelInt));
-		} else if (puzzle == PUZZLE_KQ) { // TODO
+		if (puzzle == Puzzle.GraphColoring) {
+			return (method == Method.SimulatedAnnealing) ? new GraphColorSA(
+					puzzleLevelS) : new GraphColorMC(puzzleLevelInt, new Range(
+					0, puzzleLevelInt));
+		} else if (puzzle == Puzzle.KQueens) { // TODO
 			// return (method == METHOD_SA) ? new KQueensSA(puzzleLevelS)
 			// : new GraphColorMC(puzzleLevelInt, new Range(0,
 			// puzzleLevelInt));
@@ -98,7 +75,7 @@ public class GeneralPuzzleSolver {
 		printStatistics(steps, qualities);
 
 	}
-	
+
 	private static int getQuickestSolution(ArrayList<Integer> steps,
 			ArrayList<Double> qualities) {
 		int bestStep = Integer.MAX_VALUE;
@@ -119,12 +96,14 @@ public class GeneralPuzzleSolver {
 		double stddevOfQualities = getStandardDeviation(qualities);
 		double stddevOfSteps = getStandardDeviation(steps);
 		int quickestSolution = getQuickestSolution(steps, qualities);
-		
+
 		System.out.println("--------------------------------------");
 		System.out.println(rounds + " runs");
 		System.out.println("Best evaluation: " + bestEvaluation);
 
-		System.out.println("Quickest solution: " + ((bestEvaluation == 0.0) ? quickestSolution : "no optimal solution found"));
+		System.out.println("Quickest solution: "
+				+ ((bestEvaluation == 0.0) ? quickestSolution
+						: "no optimal solution found"));
 		System.out.println("Avarage evaluation of result: "
 				+ df.format(meanOfQualities) + " +-"
 				+ df.format(stddevOfQualities));
@@ -150,12 +129,12 @@ public class GeneralPuzzleSolver {
 				arg = g.getOptarg();
 				if (arg == null) {
 					retval = false;
-				} else if (arg.compareTo(PUZZLE_KQ_KEY) == 0) {
-					puzzle = PUZZLE_KQ;
-				} else if (arg.compareTo(PUZZLE_GC_KEY) == 0) {
-					puzzle = PUZZLE_GC;
-				} else if (arg.compareTo(PUZZLE_XX_KEY) == 0) {
-					puzzle = PUZZLE_XX;
+				} else if (arg.compareTo(Puzzle.KQueens.getKey()) == 0) {
+					puzzle = Puzzle.KQueens;
+				} else if (arg.compareTo(Puzzle.GraphColoring.getKey()) == 0) {
+					puzzle = Puzzle.GraphColoring;
+				} else if (arg.compareTo(Puzzle.XX.getKey()) == 0) {
+					puzzle = Puzzle.XX;
 				}
 				break;
 			//
@@ -182,10 +161,10 @@ public class GeneralPuzzleSolver {
 				arg = g.getOptarg();
 				if (arg == null) {
 					retval = false;
-				} else if (arg.compareTo(METHOD_MC_KEY) == 0) {
-					method = METHOD_MC;
-				} else if (arg.compareTo(METHOD_SA_KEY) == 0) {
-					method = METHOD_SA;
+				} else if (arg.compareTo(Method.MinimumConflicts.getKey()) == 0) {
+					method = Method.MinimumConflicts;
+				} else if (arg.compareTo(Method.SimulatedAnnealing.getKey()) == 0) {
+					method = Method.SimulatedAnnealing;
 				} else {
 					retval = false;
 				}
@@ -203,14 +182,14 @@ public class GeneralPuzzleSolver {
 		for (int i = g.getOptind(); i < argv.length; i++)
 			System.out.println("Non option argv element: " + argv[i] + "\n");
 
-		// check if all was set
-		if (puzzle < 0) {
-			retval = false;
-		} else if (puzzle == PUZZLE_GC) {
+		// parse puzzle level;
+		if (level == null) {
+			return false;
+		} else if (puzzle == Puzzle.GraphColoring) {
 			puzzleLevelS = level;
-		} else if (puzzle == PUZZLE_KQ) {
+		} else if (puzzle == Puzzle.KQueens) {
 			puzzleLevelInt = Integer.parseInt(level);
-		} else if (puzzle == PUZZLE_XX) {
+		} else if (puzzle == Puzzle.XX) {
 			puzzleLevelInt = Integer.parseInt(level);
 		}
 
@@ -219,12 +198,12 @@ public class GeneralPuzzleSolver {
 	}
 
 	private static void usage(String progname) {
-		System.out.println("USAGE: " + progname + " -p PUZZLE "
+		System.out.println("USAGE: " + progname + " [-p PUZZLE] "
 				+ "-l LEVEL [-r ROUNDS] [-m METHOD]");
 		System.out.println();
 		System.out.println("\tPUZZLE = [KQ|GC|XX] where");
 		System.out.println("\t         \tKQ is KQueens");
-		System.out.println("\t         \tGC is GraphColoring");
+		System.out.println("\t         \tGC is GraphColoring, this is implicit");
 		System.out.println("\t         \tXX is YYY");
 		System.out.println();
 		System.out.println("\tLEVEL  = [INT|FILENAME] where");
