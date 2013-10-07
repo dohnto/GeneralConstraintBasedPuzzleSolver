@@ -23,20 +23,20 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
      * @param range     Allowed range of variables' values
      * @return List of variables with assigned values representing the solution.
      */
-    public ArrayList solve(int maxIterations) {                                        
-        
+    @Override
+    public ArrayList solve(int maxIterations) {                                                
         // Initial puzzle state - randomly initializaes the variables
-        stateManager.initialize(variables, values);        
+        stateManager.initialize(state, values);        
         
         // Main loop
 //        while()
         
-        return variables;
+        return state;
     }
     
     // TODO debug
     public void printVariables() {
-        for(int v: variables) {
+        for(int v: state) {
             System.out.print(v);
             System.out.print(" ");
         }

@@ -24,8 +24,8 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 	 * Classic Simulated Annealing simple approach from Artificial
 	 *  Inteligence: A Modern Approach
 	 */
-	public ArrayList<Integer> solve() {
-		ArrayList<Integer> state = stateManager.getInitialState();
+	public ArrayList<Integer> solve(int maxIterations) {
+		state = stateManager.getInitialState();
 		double quality = evaluateState(state);
 		
 		double T = T_MAX;

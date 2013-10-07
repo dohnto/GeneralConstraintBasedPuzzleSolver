@@ -9,13 +9,14 @@ public abstract class ConstraintBasedLocalSearch {
     /* PROPERTIES */
     
     protected LocalStateManager   stateManager;                     // state manager      
-    protected ArrayList<Integer>  variables = new ArrayList<>();    // variables
+    protected ArrayList<Integer>  state;    // variables
     protected Range               values    = new Range(0, 0);      // values range
     
     protected int step;
     // TODO remove values
     
     /* METHODS */
+    public abstract ArrayList solve(int maxIterations);                                        
     
     /**
      * Cosntructor
