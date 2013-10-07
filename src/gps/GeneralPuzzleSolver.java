@@ -1,7 +1,10 @@
 package gps;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
+
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import gps.solver.*;
 import gps.statemanager.*;
@@ -36,11 +39,23 @@ public class GeneralPuzzleSolver {
 		// KQueensMC kqMC = new KQueensMC(10, new Range(5, 12));
 		// kqMC.solve(1000);
 		// kqMC.printVariables();
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(2);
+		list.add(4);
+		list.add(4);
+		list.add(4);
+		list.add(5);
+		list.add(5);
+		list.add(7);
+		list.add(9);
+		
+		
 		if (!parseCmdParams(args)) {
 			usage(progname);
 			return;
 		}
-
+		
+		
 		ConstraintBasedLocalSearch solver = chooseSolver();
 
 		solve(solver, rounds);
@@ -68,14 +83,30 @@ public class GeneralPuzzleSolver {
 	}
 
 	public static void solve(ConstraintBasedLocalSearch solver, int rounds) {
+		ArrayList<Integer> steps = new ArrayList<Integer>();
+		ArrayList<Double> qualities = new ArrayList<Double>();
 		for (int i = 0; i < rounds; i++) {
 			solver.reset();
 			ArrayList<Integer> state = solver.solve();
+			steps.add(solver.getStep());
+			qualities.add(solver.evaluateState(state));
 			System.out
 					.println("Step = " + solver.getStep()
 							+ " and solution quality is "
 							+ solver.evaluateState(state));
 		}
+		
+        DecimalFormat df = new DecimalFormat("#.##");
+        
+		double meanOfQualities = getMean(qualities);
+		double meanOfSteps = getMean(steps);
+		double stddevOfQualities = getStandardDeviation(qualities);
+		double stddevOfSteps = getStandardDeviation(steps);
+		System.out.println("--------------------------------------");
+		System.out.println(rounds + " runs");
+		System.out.println("Avarage quality of result: " + df.format(meanOfQualities) + " +-" + df.format(stddevOfQualities));
+		System.out.println("Avarage number of steps: " + df.format(meanOfSteps) + " +-" + df.format(stddevOfSteps));
+		System.out.println("--------------------------------------");
 	}
 
 	private static Boolean parseCmdParams(String[] argv) {
@@ -186,5 +217,22 @@ public class GeneralPuzzleSolver {
 		System.out
 				.println("\t          \tMC is Minimum Conflicts, this is implicit value");
 
+	}
+	
+	private static <T extends Number> double getMean(ArrayList<T> list) {
+		double mean = 0;
+		for (T i: list) {
+			mean += i.doubleValue();
+		}
+		return mean/list.size();
+	}
+	
+	private static <T extends Number> double getStandardDeviation(ArrayList<T> list) {
+		double mean = getMean(list);
+		double stddev = 0;
+		for (T i: list) {
+			stddev += Math.pow(i.doubleValue() - mean, 2);
+		}
+		return Math.sqrt(stddev/list.size());
 	}
 }
