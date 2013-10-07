@@ -2,6 +2,7 @@ package gps;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
@@ -48,14 +49,12 @@ public class GeneralPuzzleSolver {
 		list.add(5);
 		list.add(7);
 		list.add(9);
-		
-		
+
 		if (!parseCmdParams(args)) {
 			usage(progname);
 			return;
 		}
-		
-		
+
 		ConstraintBasedLocalSearch solver = chooseSolver();
 
 		solve(solver, rounds);
@@ -87,7 +86,7 @@ public class GeneralPuzzleSolver {
 		ArrayList<Double> qualities = new ArrayList<Double>();
 		for (int i = 0; i < rounds; i++) {
 			solver.reset();
-			ArrayList<Integer> state = solver.solve();
+			ArrayList<Integer> state = solver.solve(10000);
 			steps.add(solver.getStep());
 			qualities.add(solver.evaluateState(state));
 			System.out
@@ -95,18 +94,44 @@ public class GeneralPuzzleSolver {
 							+ " and solution quality is "
 							+ solver.evaluateState(state));
 		}
-		
-        DecimalFormat df = new DecimalFormat("#.##");
-        
+
+		printStatistics(steps, qualities);
+
+	}
+	
+	private static int getQuickestSolution(ArrayList<Integer> steps,
+			ArrayList<Double> qualities) {
+		int bestStep = Integer.MAX_VALUE;
+		for (int i = 0; i < qualities.size(); ++i) {
+			if (qualities.get(i) == 0.0 && steps.get(i) < bestStep)
+				bestStep = steps.get(i);
+		}
+		return bestStep;
+	}
+
+	private static void printStatistics(ArrayList<Integer> steps,
+			ArrayList<Double> qualities) {
+		DecimalFormat df = new DecimalFormat("#.##");
+
 		double meanOfQualities = getMean(qualities);
 		double meanOfSteps = getMean(steps);
+		double bestEvaluation = Collections.min(qualities);
 		double stddevOfQualities = getStandardDeviation(qualities);
 		double stddevOfSteps = getStandardDeviation(steps);
+		int quickestSolution = getQuickestSolution(steps, qualities);
+		
 		System.out.println("--------------------------------------");
 		System.out.println(rounds + " runs");
-		System.out.println("Avarage quality of result: " + df.format(meanOfQualities) + " +-" + df.format(stddevOfQualities));
-		System.out.println("Avarage number of steps: " + df.format(meanOfSteps) + " +-" + df.format(stddevOfSteps));
+		System.out.println("Best evaluation: " + bestEvaluation);
+
+		System.out.println("Quickest solution: " + ((bestEvaluation == 0.0) ? quickestSolution : "no optimal solution found"));
+		System.out.println("Avarage evaluation of result: "
+				+ df.format(meanOfQualities) + " +-"
+				+ df.format(stddevOfQualities));
+		System.out.println("Avarage number of steps: " + df.format(meanOfSteps)
+				+ " +-" + df.format(stddevOfSteps));
 		System.out.println("--------------------------------------");
+
 	}
 
 	private static Boolean parseCmdParams(String[] argv) {
@@ -218,21 +243,22 @@ public class GeneralPuzzleSolver {
 				.println("\t          \tMC is Minimum Conflicts, this is implicit value");
 
 	}
-	
+
 	private static <T extends Number> double getMean(ArrayList<T> list) {
 		double mean = 0;
-		for (T i: list) {
+		for (T i : list) {
 			mean += i.doubleValue();
 		}
-		return mean/list.size();
+		return mean / list.size();
 	}
-	
-	private static <T extends Number> double getStandardDeviation(ArrayList<T> list) {
+
+	private static <T extends Number> double getStandardDeviation(
+			ArrayList<T> list) {
 		double mean = getMean(list);
 		double stddev = 0;
-		for (T i: list) {
+		for (T i : list) {
 			stddev += Math.pow(i.doubleValue() - mean, 2);
 		}
-		return Math.sqrt(stddev/list.size());
+		return Math.sqrt(stddev / list.size());
 	}
 }

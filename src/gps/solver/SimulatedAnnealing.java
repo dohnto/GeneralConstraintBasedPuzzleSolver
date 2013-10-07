@@ -10,7 +10,6 @@ import gps.statemanager.LocalStateManager;
 
 public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 
-	protected int MAX_STEPS = 100000;
 	protected double T_MAX = 10;
 	protected double T_ALPHA = 0.9999; // cooling coeficient
 	protected double T_EPSILON = 0.01;
@@ -29,7 +28,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 		double quality = evaluateState(state);
 		
 		double T = T_MAX;
-		for (step = 0; step < MAX_STEPS && quality > 0.0; step++) {
+		for (step = 0; step < maxIterations && quality > 0.0; step++) {
 			if (T < T_EPSILON) // T is too small
 				break;
 			ArrayList<Integer> neighbour = stateManager.getRandomNeighbour(state);
