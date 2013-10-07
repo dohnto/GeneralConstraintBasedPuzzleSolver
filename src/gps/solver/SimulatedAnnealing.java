@@ -1,12 +1,53 @@
 package gps.solver;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
+
+import gps.Range;
+import gps.statemanager.LocalStateManager;
 
 public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 
-    @Override
-    public ArrayList solve(int maxIterations) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+	protected int MAX_STEPS = 100000;
+	protected double T_MAX = 10;
+	protected double T_ALPHA = 0.9999; // cooling coeficient
+	protected double T_EPSILON = 0.01;
+	protected int RANDOM_NEIGHBOURS_COUNT = 10;
+
+	public SimulatedAnnealing(LocalStateManager stateManager) {
+		super(stateManager);
+	}
+
+	/**
+	 * Classic Simulated Annealing simple approach from Artificial
+	 *  Inteligence: A Modern Approach
+	 */
+	public ArrayList<Integer> solve(int maxIterations) {
+		state = stateManager.getInitialState();
+		double quality = evaluateState(state);
+		
+		double T = T_MAX;
+		for (step = 0; step < MAX_STEPS && quality > 0.0; step++) {
+			if (T < T_EPSILON) // T is too small
+				break;
+			ArrayList<Integer> neighbour = stateManager.getRandomNeighbour(state);
+			double qualityNeighbour = evaluateState(neighbour);
+			double delta = quality - qualityNeighbour;
+			if (delta > 0) { // exploiting
+				state = neighbour;
+				quality = qualityNeighbour;
+			} else {
+				Random r = new Random();
+				double x = r.nextDouble();
+				if (x < Math.pow(Math.E, delta/T)) { // exploring
+					state = neighbour;
+					quality = qualityNeighbour;
+				}
+			}
+			T *= T_ALPHA;
+		}
+		return state;
+	}
 }

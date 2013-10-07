@@ -1,12 +1,12 @@
 package gps.solver;
 
 import gps.Range;
-import gps.statemanager.GraphColorStateManager;
+import gps.statemanager.graphcolor.GraphColorStateManager;
 
 public class GraphColorMC extends MinConflicts {
     
     /* METHODS */
-    public GraphColorMC(int varCount, Range r) {
-        super(new GraphColorStateManager(), varCount, r);
+    public GraphColorMC(int varCount, Range r) throws Exception {
+        super(new GraphColorStateManager("pes"), varCount, r);
     }
 }
