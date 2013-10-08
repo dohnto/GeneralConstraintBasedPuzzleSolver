@@ -7,6 +7,10 @@ import gps.Range;
 public class KQueensStateManager extends LocalStateManager {
 
     /* METHODS */
+    public KQueensStateManager(int size, Range domain) {
+        super(size, domain);
+    }
+
     /**
      * Randomly initializes a state of the puzzle.
      *
@@ -26,8 +30,7 @@ public class KQueensStateManager extends LocalStateManager {
 
         return conflVars;
     }
-    
-    public void printState(ArrayList<Integer> state) {
-        
-    }
+//    public void printState(ArrayList<Integer> state) {
+//        System.out.pr
+//    }
 }

@@ -11,8 +11,8 @@ public class KQueensMC extends MinConflicts {
     /**
      * Constructor
      */
-    public KQueensMC(int size, Range r) {
-        super(new KQueensStateManager(), size, r);        
+    public KQueensMC(int size, Range domain) {
+        super(new KQueensStateManager(size, domain));        
     }
     
 }

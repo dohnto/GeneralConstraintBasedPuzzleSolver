@@ -37,11 +37,12 @@ public class GeneralPuzzleSolver {
 
 	public static ConstraintBasedLocalSearch chooseSolver() throws Exception {
 		if (puzzle == Puzzle.GraphColoring) {
-			return (method == Method.SimulatedAnnealing) ? new GraphColorSA(
-					puzzleLevelS) : new GraphColorMC(puzzleLevelInt, new Range(
-					0, puzzleLevelInt));
-		} else if (puzzle == Puzzle.KQueens) { // TODO
-			// return (method == METHOD_SA) ? new KQueensSA(puzzleLevelS)
+                    // TODO !! 
+//                    return (method == Method.SimulatedAnnealing) ? new GraphColorSA(
+//					puzzleLevelS) : new GraphColorMC(puzzleLevelInt, new Range(
+//					0, puzzleLevelInt));
+		} else if (puzzle == Puzzle.KQueens) { //TODO
+			//return (method == METHOD_SA) ? new KQueensSA(puzzleLevelS)
 			// : new GraphColorMC(puzzleLevelInt, new Range(0,
 			// puzzleLevelInt));
 		} else { // PUZZLE_XX TODO

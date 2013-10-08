@@ -14,8 +14,8 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
      * @param size number of variables
      * @param values range of allowable values for state varibles
      */     
-    public MinConflicts(LocalStateManager stateManager, int size, Range values) {
-        super(stateManager, size, values);
+    public MinConflicts(LocalStateManager stateManager) {
+        super(stateManager);
     }	
     
     /**     

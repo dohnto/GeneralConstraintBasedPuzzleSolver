@@ -12,6 +12,8 @@ import java.util.Vector;
 
 import sun.awt.VerticalBagLayout;
 
+import gps.Range;
+
 public class GraphColorStateManager extends LocalStateManager {
 
 	private int COLORS = 4;
@@ -19,8 +21,13 @@ public class GraphColorStateManager extends LocalStateManager {
 	// vertices
 	Vector<GraphColorVertex> vertices = new Vector<GraphColorVertex>();
 
-	public GraphColorStateManager(String filename) throws Exception {
-		super();
+        // TODO !!!
+        String filename;
+        
+	//public GraphColorStateManager(String filename) throws Exception {
+	public GraphColorStateManager(int size, Range domain) throws Exception {
+		//super(); // TODO poslat do super() size a domain
+                super(size, domain);
 		if (!GraphColorParser.parse(filename, vertices)) {
 			throw new Exception("Graph color parser cannot parse input file.");
 		}
