@@ -8,26 +8,12 @@ public abstract class ConstraintBasedLocalSearch {
     
     /* PROPERTIES */
     
-    protected LocalStateManager   stateManager;                     // state manager      
-    protected ArrayList<Integer>  state;    // variables
-    protected Range               values    = new Range(0, 0);      // values range
-    
-    protected int step;
-    // TODO remove values
+    protected LocalStateManager     stateManager;                   // state manager      
+    protected ArrayList<Integer>    state;                          // state    
+    protected int                   step;    
     
     /* METHODS */
-    public abstract ArrayList<Integer> solve(int maxIterations);                                        
-    
-    /**
-     * Cosntructor
-     */
-    /*public ConstraintBasedLocalSearch(LocalStateManager stateManager, int varCount, Range values) {
-    	this.stateManager = stateManager;
-        this.values       = values;
-        for(int i = 0; i < varCount; i++) {
-            variables.add(0);
-        }
-    }*/
+    public abstract ArrayList<Integer> solve(int maxIterations);                                               
     
     /**
      * 

@@ -7,13 +7,15 @@ import java.util.Random;
 
 public abstract class LocalStateManager {
 
+        protected int size; // number of variables
+        protected Range domain = new Range(0, 0); // variables' domain    
+    
 	// TODO return type not void
 
 	/**
 	 * Randomly initializes the state of the puzzle.
 	 */
-	public void initialize(ArrayList<Integer> variables, Range range) { // TODO
-																		// DELETE
+	public void initialize(ArrayList<Integer> variables, Range range) { // TODO																		// DELETE
 		for (int i = 0; i < variables.size(); i++) {
 			variables.set(i, rand(range.begin(), range.end()));
 		}
@@ -60,7 +62,7 @@ public abstract class LocalStateManager {
 	 * @param max
 	 * @return
 	 */
-	private int rand(int min, int max) {
+	protected int rand(int min, int max) {
 		return (int) (min + Math.random() * (max - min + 1));
 	}
 
@@ -71,9 +73,9 @@ public abstract class LocalStateManager {
 	public void printState(ArrayList<Integer> variables) { // TODO abstract
 	}
 
-	public ArrayList<Integer> getInitialState() { // TODO abstract
-		return new ArrayList<Integer>();
-	}
+	public ArrayList<Integer> getInitialState() {
+            return null;        
+        }
 
 	public static int getRandomInt(int min, int max) {
 		Random r = new Random();

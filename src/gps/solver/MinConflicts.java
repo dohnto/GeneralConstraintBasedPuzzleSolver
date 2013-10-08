@@ -10,13 +10,13 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
     
     /**
      * Constructor
-     */
-    /*public MinConflicts(LocalStateManager stateManager, int varCount, Range values) {
-        super(stateManager, varCount, values);
-    } */
-	public MinConflicts(LocalStateManager stateManager, int varCount, Range values) {
-        super(stateManager);
-	}
+     * @param stateManager
+     * @param size number of variables
+     * @param values range of allowable values for state varibles
+     */     
+    public MinConflicts(LocalStateManager stateManager, int size, Range values) {
+        super(stateManager, size, values);
+    }	
     
     /**     
      * @param varCount  Number of variables
@@ -26,10 +26,12 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
     @Override
     public ArrayList solve(int maxIterations) {                                                
         // Initial puzzle state - randomly initializaes the variables
-        stateManager.initialize(state, values);        
+        stateManager.getInitialState();
         
         // Main loop
 //        while()
+        
+        printVariables();
         
         return state;
     }

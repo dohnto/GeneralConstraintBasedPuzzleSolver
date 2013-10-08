@@ -27,6 +27,7 @@ public class GraphColorStateManager extends LocalStateManager {
 
 	}
 
+        //@Override
 	public ArrayList<Integer> getInitialState() {
 		ArrayList<Integer> state = new ArrayList<Integer>();
 		for (int i = 0; i < vertices.size(); i++) {
