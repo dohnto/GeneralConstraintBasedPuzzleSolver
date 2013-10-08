@@ -31,16 +31,8 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
         // Main loop
 //        while()
         
-        printVariables();
+        stateManager.printState();
         
         return state;
-    }
-    
-    // TODO debug
-    public void printVariables() {
-        for(int v: state) {
-            System.out.print(v);
-            System.out.print(" ");
-        }
-    }
+    }    
 }

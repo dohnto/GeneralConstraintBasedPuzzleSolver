@@ -6,13 +6,12 @@ import java.util.ArrayList;
 
 public class KQueensMC extends MinConflicts {    
     
-    /* METHODS */
-    
     /**
      * Constructor
+     * @param size
+     * @param domain 
      */
     public KQueensMC(int size, Range domain) {
         super(new KQueensStateManager(size, domain));        
-    }
-    
+    }    
 }

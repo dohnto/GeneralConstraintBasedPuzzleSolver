@@ -1,11 +1,17 @@
 package gps.solver;
 
 import gps.statemanager.LocalStateManager;
+import gps.statemanager.kqueens.KQueensStateManager;
+import gps.Range;
 
 public class KQueensSA extends SimulatedAnnealing {
-
-	public KQueensSA(LocalStateManager stateManager) {
-		super(stateManager);
-		// TODO Automaticky generovaný stub konstruktoru
+    
+        /**
+         * Constructor
+         * @param size
+         * @param domain 
+         */
+	public KQueensSA(int size, Range domain) {
+		super(new KQueensStateManager(size, domain));
 	}
 }

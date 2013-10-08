@@ -30,7 +30,8 @@ public class KQueensStateManager extends LocalStateManager {
 
         return conflVars;
     }
-//    public void printState(ArrayList<Integer> state) {
-//        System.out.pr
-//    }
+    
+    public void printState(ArrayList<Integer> state) {
+        System.out.println("Checkerboard");
+    }
 }
