@@ -10,10 +10,9 @@ import gps.statemanager.LocalStateManager;
 
 public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 
-	protected double T_MAX = 10;
+	protected double T_MAX = 10;		// starting temperature
 	protected double T_ALPHA = 0.9999; // cooling coeficient
-	protected double T_EPSILON = 0.01;
-	protected int RANDOM_NEIGHBOURS_COUNT = 10;
+	protected double T_EPSILON = 0.01; // min temperature
 
 	public SimulatedAnnealing(LocalStateManager stateManager) {
 		super(stateManager);

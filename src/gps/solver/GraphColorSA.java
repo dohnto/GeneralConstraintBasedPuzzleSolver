@@ -1,14 +1,14 @@
 package gps.solver;
 
+import java.util.Vector;
+
 import gps.statemanager.graphcolor.GraphColorStateManager;
+import gps.statemanager.graphcolor.GraphColorVertex;
 import gps.Range;
 
 public class GraphColorSA extends SimulatedAnnealing {
 
-    public GraphColorSA(int size, Range domain) throws Exception {
-        //public GraphColorSA(String filename) throws Exception {
-        // TODO !!
-        //super(new GraphColorStateManager(filename));
-        super(new GraphColorStateManager(size, domain));
+    public GraphColorSA(Vector<GraphColorVertex> vertices, Range domain) throws Exception {
+        super(new GraphColorStateManager(vertices, domain));
     }
 }

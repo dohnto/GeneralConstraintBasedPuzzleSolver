@@ -19,25 +19,22 @@ public class GraphColorStateManager extends LocalStateManager {
 	private int COLORS = 4;
 
 	// vertices
-	Vector<GraphColorVertex> vertices = new Vector<GraphColorVertex>();
+	Vector<GraphColorVertex> vertices;
 
-        // TODO !!!
-        String filename;
-        
-	//public GraphColorStateManager(String filename) throws Exception {
-	public GraphColorStateManager(int size, Range domain) throws Exception {
-		//super(); // TODO poslat do super() size a domain
-                super(size, domain);
-		if (!GraphColorParser.parse(filename, vertices)) {
-			throw new Exception("Graph color parser cannot parse input file.");
-		}
+	// TODO !!!
+	String filename;
 
+	// public GraphColorStateManager(String filename) throws Exception {
+	public GraphColorStateManager(Vector<GraphColorVertex> vertices,
+			Range domain) throws Exception {
+		super(vertices.size(), domain);
+		this.vertices = vertices;
 	}
 
-        @Override
+	@Override
 	public ArrayList<Integer> getInitialState() {
 		ArrayList<Integer> state = new ArrayList<Integer>(size);
-//		for (int i = 0; i < vertices.size(); i++) {
+		// for (int i = 0; i < vertices.size(); i++) {
 		for (int i = 0; i < size; i++) {
 			state.add(getRandomColor());
 		}
