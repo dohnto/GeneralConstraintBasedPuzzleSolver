@@ -26,12 +26,12 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
     @Override
     public ArrayList solve(int maxIterations) {                                                
         // Initial puzzle state - randomly initializaes the variables
-        stateManager.getInitialState();
+        state = stateManager.getInitialState();
         
         // Main loop
 //        while()
         
-        stateManager.printState();
+        stateManager.printState(state);
         
         return state;
     }    

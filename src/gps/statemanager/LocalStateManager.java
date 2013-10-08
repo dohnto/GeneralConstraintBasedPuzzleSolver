@@ -67,15 +67,11 @@ public abstract class LocalStateManager {
         return (int) (min + Math.random() * (max - min + 1));
     }
 
-    public void printState() {// TODO abstract
-    }
+//    public abstract void printState();
 
-    public void printState(ArrayList<Integer> variables) { // TODO abstract
-    }
+    public abstract void printState(ArrayList<Integer> state);
 
-    public ArrayList<Integer> getInitialState() {
-        return null;
-    }
+    public abstract ArrayList<Integer> getInitialState(); 
 
     public static int getRandomInt(int min, int max) {
         Random r = new Random();

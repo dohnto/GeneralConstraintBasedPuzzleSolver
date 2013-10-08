@@ -34,10 +34,11 @@ public class GraphColorStateManager extends LocalStateManager {
 
 	}
 
-        //@Override
+        @Override
 	public ArrayList<Integer> getInitialState() {
-		ArrayList<Integer> state = new ArrayList<Integer>();
-		for (int i = 0; i < vertices.size(); i++) {
+		ArrayList<Integer> state = new ArrayList<Integer>(size);
+//		for (int i = 0; i < vertices.size(); i++) {
+		for (int i = 0; i < size; i++) {
 			state.add(getRandomColor());
 		}
 		return state;

@@ -19,10 +19,13 @@ public class KQueensStateManager extends LocalStateManager {
      * @param values
      * @return
      */
-    public void getInitialState(ArrayList<Integer> state, int size, Range values) {
+    @Override
+    public ArrayList<Integer> getInitialState() {
+        ArrayList<Integer> state = new ArrayList<>(size);        
         for (int i = 0; i < size; i++) {
-            state.set(i, rand(values.begin(), values.end()));
+            state.add(rand(domain.begin(), domain.end()));
         }
+        return state;
     }
 
     public ArrayList<Integer> getConflictVars(ArrayList<Integer> vars) {
@@ -31,6 +34,7 @@ public class KQueensStateManager extends LocalStateManager {
         return conflVars;
     }
     
+    @Override
     public void printState(ArrayList<Integer> state) {
         System.out.println("Checkerboard");
     }

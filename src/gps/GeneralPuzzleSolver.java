@@ -71,15 +71,15 @@ public class GeneralPuzzleSolver {
         for (int i = 0; i < rounds; i++) {
             solver.reset();
             ArrayList<Integer> state = solver.solve(MAX_STEPS);
-            steps.add(solver.getStep());
-            qualities.add(solver.evaluateState(state));
-            System.out
-                    .println("Step = " + solver.getStep()
-                    + " and solution quality is "
-                    + solver.evaluateState(state));
+//            steps.add(solver.getStep());
+//            qualities.add(solver.evaluateState(state));
+//            System.out
+//                    .println("Step = " + solver.getStep()
+//                    + " and solution quality is "
+//                    + solver.evaluateState(state));
         }
 
-        printStatistics(steps, qualities);
+//        printStatistics(steps, qualities);
 
     }
 
