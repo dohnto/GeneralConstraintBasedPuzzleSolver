@@ -15,26 +15,21 @@ import sun.awt.VerticalBagLayout;
 import gps.Range;
 
 public class GraphColorStateManager extends LocalStateManager {
-
-	private int COLORS = 4;
-
+	Range domain;
 	// vertices
 	Vector<GraphColorVertex> vertices;
-
-	// TODO !!!
-	String filename;
 
 	// public GraphColorStateManager(String filename) throws Exception {
 	public GraphColorStateManager(Vector<GraphColorVertex> vertices,
 			Range domain) throws Exception {
 		super(vertices.size(), domain);
 		this.vertices = vertices;
+		this.domain = domain;
 	}
 
 	@Override
 	public ArrayList<Integer> getInitialState() {
 		ArrayList<Integer> state = new ArrayList<Integer>(size);
-		// for (int i = 0; i < vertices.size(); i++) {
 		for (int i = 0; i < size; i++) {
 			state.add(getRandomColor());
 		}
@@ -54,7 +49,7 @@ public class GraphColorStateManager extends LocalStateManager {
 
 	public double evaluateState(ArrayList<Integer> state) {
 		double sum = 0;
-		for (int i = 0; i < vertices.size(); ++i) {
+		for (int i = 0; i < size; ++i) {
 			GraphColorVertex v = vertices.get(i);
 			int color = state.get(i);
 			for (int neighbourIndex : v.getNeighbours()) {
@@ -102,7 +97,7 @@ public class GraphColorStateManager extends LocalStateManager {
 	}
 
 	public int getRandomColor() {
-		return getRandomInt(0, COLORS - 1);
+		return getRandomInt(domain.begin(), domain.end());
 	}
 
 	public void printState(ArrayList<Integer> state) {
