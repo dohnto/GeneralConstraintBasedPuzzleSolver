@@ -35,10 +35,26 @@ public class GraphColorStateManager extends LocalStateManager {
 		return neighbour;
 	}
 
-        @Override
-	public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state, 
-                                                         int conflictVertex) {
-            return null;
+	@Override
+	public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state,
+			int conflictVertex) {
+		ArrayList<Integer> retval = new ArrayList<>(state);
+
+		double best = evaluateState(state);
+
+		for (int color = domain.begin(); color <= domain.end(); color++) {
+			if (color != state.get(conflictVertex)) {
+				ArrayList<Integer> modified = new ArrayList<>(state);
+				modified.set(conflictVertex, color);
+				double quality = evaluateState(modified); 
+				if (quality <= best) {
+					retval = modified;
+					best = quality;
+				}
+			}
+		}
+
+		return retval;
 	}
 
 	public double evaluateState(ArrayList<Integer> state) {
@@ -90,9 +106,9 @@ public class GraphColorStateManager extends LocalStateManager {
 				+ evaluateState(variables));
 	}
 
-//	public int getRandomColor() {
-//		return getRandomInt(domain.begin(), domain.end());
-//	}
+	// public int getRandomColor() {
+	// return getRandomInt(domain.begin(), domain.end());
+	// }
 
 	public void printState(ArrayList<Integer> state) {
 		final String[] colors = { "#0066B3", "#FFE500", "#00CC00", "#CCCC00" };
@@ -117,8 +133,23 @@ public class GraphColorStateManager extends LocalStateManager {
 		System.out.println("}");
 	}
 
-    @Override
-    public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }   
+	@Override
+	public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
+		assert state.size() == vertices.size();
+
+		ArrayList<Integer> conflicts = new ArrayList<>();
+
+		for (int i = 0; i < state.size(); ++i) {
+			int vColor = state.get(i);
+			GraphColorVertex v = vertices.get(i);
+			for (int neighbourIndex : v.getNeighbours()) {
+				if (vColor == state.get(neighbourIndex)) {
+					conflicts.add(i);
+					break;
+				}
+			}
+		}
+
+		return conflicts;
+	}
 }

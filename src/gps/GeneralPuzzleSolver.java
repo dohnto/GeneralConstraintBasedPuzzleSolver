@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import gps.solver.*;
 import gps.statemanager.*;
 import gps.statemanager.graphcolor.GraphColorParser;
+import gps.statemanager.graphcolor.GraphColorStateManager;
 import gps.statemanager.graphcolor.GraphColorVertex;
 import gnu.getopt.*;
 
@@ -48,6 +49,8 @@ public class GeneralPuzzleSolver {
 			}
 			switch (method) {
 			case MinimumConflicts:
+				solver = new GraphColorMC(vertices, new Range(0, GRAPH_COLORS - 1));
+				break;
 			case SimulatedAnnealing:
 				solver = new GraphColorSA(vertices, new Range(0, GRAPH_COLORS - 1));
 				break;
@@ -91,9 +94,9 @@ public class GeneralPuzzleSolver {
 			steps.add(solver.getStep());
 			qualities.add(solver.evaluateState(state));
 			System.out
-			.println("Step = " + solver.getStep()
-			+ " and solution quality is "
-			+ solver.evaluateState(state));
+					.println("Step = " + solver.getStep()
+							+ " and solution quality is "
+							+ solver.evaluateState(state));
 		}
 
 		printStatistics(steps, qualities);
