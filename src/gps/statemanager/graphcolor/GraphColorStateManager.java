@@ -13,6 +13,7 @@ import java.util.Vector;
 import sun.awt.VerticalBagLayout;
 
 import gps.Range;
+import java.lang.reflect.Array;
 
 public class GraphColorStateManager extends LocalStateManager {
 	Range domain;
@@ -27,24 +28,17 @@ public class GraphColorStateManager extends LocalStateManager {
 		this.domain = domain;
 	}
 
-	@Override
-	public ArrayList<Integer> getInitialState() {
-		ArrayList<Integer> state = new ArrayList<Integer>(size);
-		for (int i = 0; i < size; i++) {
-			state.add(getRandomColor());
-		}
-		return state;
-	}
-
 	public ArrayList<Integer> getRandomNeighbour(ArrayList<Integer> state) {
 		ArrayList<Integer> neighbour = new ArrayList<Integer>(state);
 		int index = getRandomInt(0, state.size() - 1);
-		neighbour.set(index, getRandomColor());
+		neighbour.set(index, getRandomInt(domain.begin(), domain.end()));
 		return neighbour;
 	}
 
-	public void getInteligentNeighbour(ArrayList<Integer> state) {
-
+        @Override
+	public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state, 
+                                                         int conflictVertex) {
+            return null;
 	}
 
 	public double evaluateState(ArrayList<Integer> state) {
@@ -96,9 +90,9 @@ public class GraphColorStateManager extends LocalStateManager {
 				+ evaluateState(variables));
 	}
 
-	public int getRandomColor() {
-		return getRandomInt(domain.begin(), domain.end());
-	}
+//	public int getRandomColor() {
+//		return getRandomInt(domain.begin(), domain.end());
+//	}
 
 	public void printState(ArrayList<Integer> state) {
 		final String[] colors = { "#0066B3", "#FFE500", "#00CC00", "#CCCC00" };
@@ -126,10 +120,5 @@ public class GraphColorStateManager extends LocalStateManager {
     @Override
     public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state, int variable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }   
 }

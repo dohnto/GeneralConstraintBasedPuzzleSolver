@@ -13,26 +13,6 @@ public class KQueensStateManager extends LocalStateManager {
     public KQueensStateManager(int size, Range domain) {
         super(size, domain);
     }
-
-    /**
-     * Randomly initializes a state of the puzzle.
-     *
-     * @param state
-     * @param size
-     * @param values
-     * @return
-     */
-    @Override
-    public ArrayList<Integer> getInitialState() {
-        ArrayList<Integer> state = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            state.add(rand(domain.begin(), domain.end()));
-        }
-        
-        System.out.print(state + "\n");
-        
-        return state;
-    }
     
     private boolean isConflict(int qi, int qj, ArrayList<Integer> state) {
         return (state.get(qi) ==  state.get(qj))                      || 
@@ -124,5 +104,10 @@ public class KQueensStateManager extends LocalStateManager {
             System.out.format("- ");
         }
         System.out.format("+%n");
+    }
+
+    @Override
+    public ArrayList<Integer> getRandomNeighbour(ArrayList<Integer> state) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

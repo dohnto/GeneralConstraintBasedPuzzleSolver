@@ -7,35 +7,20 @@ import java.util.Random;
 
 public abstract class LocalStateManager {
 
+    /* ATRIBUTES */
+    
     protected int size; // number of variables
     protected Range domain = new Range(0, 0); // variables' domain
 
-    // TODO return type not void
+    /* METHODS */
+    
     public LocalStateManager(int size, Range domain) {
         this.size   = size;
         this.domain = domain;
     }
 
-    /**
-     * Generates random neighbour
-     *
-     * @param state as a template
-     * @return randomly changed given state
-     */
-    public ArrayList<Integer> /* abstract */ getRandomNeighbour(
-            ArrayList<Integer> state) { // TODO abstract
-        return new ArrayList<Integer>();
-    }
-
-    public ArrayList<ArrayList<Integer>> getRandomNeighbour(
-            ArrayList<Integer> state, int count) {
-        ArrayList<ArrayList<Integer>> neighbours = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < count; i++) {
-            neighbours.add(getRandomNeighbour(state));
-        }
-        return neighbours;
-    }
-
+    public abstract ArrayList<Integer> 
+            getRandomNeighbour(ArrayList<Integer> state);
     
     public abstract ArrayList<Integer> 
             getInteligentNeighbour(ArrayList<Integer> state, int variable);
@@ -46,14 +31,7 @@ public abstract class LocalStateManager {
 
     public void displayState(ArrayList<Integer> state) { // TODO abstract
     }
-
-    /**
-     * Returns integer value in the range <min, max)
-     *
-     * @param min
-     * @param max
-     * @return
-     */
+    
     protected int rand(int min, int max) {
         return (int) (min + Math.random() * (max - min + 1));
     }
@@ -62,7 +40,18 @@ public abstract class LocalStateManager {
 
     public abstract void printState(ArrayList<Integer> state);
 
-    public abstract ArrayList<Integer> getInitialState(); 
+    /**
+     * Randomly initializes a state of the puzzle.
+     * @return 
+     */
+    public ArrayList<Integer> getInitialState() {
+        ArrayList<Integer> state = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            state.add(rand(domain.begin(), domain.end()));
+        }        
+        
+        return state;
+    }
 
     public static int getRandomInt(int min, int max) {
         Random r = new Random();
