@@ -17,15 +17,6 @@ public abstract class LocalStateManager {
     }
 
     /**
-     * Randomly initializes the state of the puzzle.
-     */
-    public void initialize(ArrayList<Integer> variables, Range range) { // TODO																		// DELETE
-        for (int i = 0; i < variables.size(); i++) {
-            variables.set(i, rand(range.begin(), range.end()));
-        }
-    }
-
-    /**
      * Generates random neighbour
      *
      * @param state as a template
@@ -45,12 +36,12 @@ public abstract class LocalStateManager {
         return neighbours;
     }
 
-    // TODO abstract
-    public void getInteligentNeighbour(ArrayList<Integer> state) {
-    }
+    
+    public abstract ArrayList<Integer> 
+            getInteligentNeighbour(ArrayList<Integer> state, int variable);
 
-    public double evaluateState(ArrayList<Integer> state) { // TODO abstract
-        return 0;
+    public double evaluateState(ArrayList<Integer> state) {
+        return 0.0;
     }
 
     public void displayState(ArrayList<Integer> state) { // TODO abstract
@@ -77,4 +68,7 @@ public abstract class LocalStateManager {
         Random r = new Random();
         return min + (int) r.nextInt(max - min + 1);
     }
+    
+    // TODO - mozna metodu bude mit solver
+    public abstract ArrayList<Integer> getConflicts(ArrayList<Integer> state);
 }

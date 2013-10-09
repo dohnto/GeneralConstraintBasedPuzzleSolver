@@ -127,4 +127,14 @@ public class GraphColorStateManager extends LocalStateManager {
 		}
 		System.out.println("}");
 	}
+
+    @Override
+    public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state, int variable) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

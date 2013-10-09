@@ -59,8 +59,7 @@ public class GeneralPuzzleSolver {
 		} else if (puzzle == Puzzle.KQueens) { // TODO
 			switch (method) {
 			case MinimumConflicts:
-				solver = new KQueensMC(puzzleLevelInt, new Range(1,
-						puzzleLevelInt));
+				solver = new KQueensMC(puzzleLevelInt, new Range(0, puzzleLevelInt - 1));
 				break;
 
 			case SimulatedAnnealing:

@@ -13,5 +13,5 @@ public class KQueensMC extends MinConflicts {
      */
     public KQueensMC(int size, Range domain) {
         super(new KQueensStateManager(size, domain));        
-    }    
+    }            
 }

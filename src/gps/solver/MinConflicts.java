@@ -4,7 +4,10 @@ import gps.Range;
 import gps.statemanager.LocalStateManager;
 import java.util.ArrayList;
 
-public class MinConflicts extends ConstraintBasedLocalSearch {        
+public abstract class MinConflicts extends ConstraintBasedLocalSearch {        
+    
+    /* PROPERTIES */   
+    private int MAX_STEPS = 1;
     
     /* METHODS */   
     
@@ -25,14 +28,27 @@ public class MinConflicts extends ConstraintBasedLocalSearch {
      */
     @Override
     public ArrayList solve(int maxIterations) {                                                
-        // Initial puzzle state - randomly initializaes the variables
+        // Initial puzzle state - randomly initializes the variables
         state = stateManager.getInitialState();
         
         // Main loop
-//        while()
+        while (step++ < MAX_STEPS) {                        
+            // Get conflicting variables
+            ArrayList<Integer> conflicts = stateManager.getConflicts(state);
+            
+            // Check whether puzzle is solved
+            if(conflicts.isEmpty()) break;
+            
+            // Randomly choose conflicting variable
+            int idx  = LocalStateManager.getRandomInt(0, conflicts.size() - 1);
+            int c    = conflicts.get(idx);
+            
+            // Set new (better) value for the conflicting variable
+            state = stateManager.getInteligentNeighbour(state, c);            
+        }
         
         stateManager.printState(state);
         
         return state;
-    }    
+    }            
 }
