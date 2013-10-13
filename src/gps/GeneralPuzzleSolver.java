@@ -74,8 +74,8 @@ public class GeneralPuzzleSolver {
 				break;
 
 			case SimulatedAnnealing:
-				// TODO - pocet promennych a rozsah
-				// solver = new KQueensSA();
+				solver = new KQueensSA(puzzleLevelInt, new Range(0,
+						puzzleLevelInt - 1));
 				break;
 
 			default:
@@ -90,11 +90,13 @@ public class GeneralPuzzleSolver {
 		} else { // PUZZLE_XX TODO
 			switch (method) {
 			case MinimumConflicts:
+				solver = new RoundRobinTournamentMC(puzzleLevelInt, new Range(
+						1, puzzleLevelInt));
 				break;
 
 			case SimulatedAnnealing:
-				solver = new MagicSquareSA(puzzleLevelInt, new Range(1,
-						puzzleLevelInt * puzzleLevelInt));
+				solver = new RoundRobinTournamentSA(puzzleLevelInt, new Range(
+						1, puzzleLevelInt));
 				break;
 
 			default:
@@ -169,7 +171,7 @@ public class GeneralPuzzleSolver {
 		String arg;
 		String level = null;
 
-		Getopt g = new Getopt(progname, argv, "hp:l:r:m:");
+		Getopt g = new Getopt(progname, argv, "hvp:l:r:m:");
 		g.setOpterr(false); // We'll do our own error handling
 		//
 
@@ -183,8 +185,8 @@ public class GeneralPuzzleSolver {
 					puzzle = Puzzle.KQueens;
 				} else if (arg.compareTo(Puzzle.GraphColoring.getKey()) == 0) {
 					puzzle = Puzzle.GraphColoring;
-				} else if (arg.compareTo(Puzzle.MS.getKey()) == 0) {
-					puzzle = Puzzle.MS;
+				} else if (arg.compareTo(Puzzle.RoundRobinTournament.getKey()) == 0) {
+					puzzle = Puzzle.RoundRobinTournament;
 				}
 				break;
 			//
@@ -241,7 +243,7 @@ public class GeneralPuzzleSolver {
 			puzzleLevelS = level;
 		} else if (puzzle == Puzzle.KQueens) {
 			puzzleLevelInt = Integer.parseInt(level);
-		} else if (puzzle == Puzzle.MS) {
+		} else if (puzzle == Puzzle.RoundRobinTournament) {
 			puzzleLevelInt = Integer.parseInt(level);
 		}
 
@@ -250,29 +252,33 @@ public class GeneralPuzzleSolver {
 	}
 
 	private static void usage(String progname) {
-		System.out.println("USAGE: " + progname + " [-p PUZZLE] "
+		System.out.println("USAGE: " + progname + " [-v] [-p PUZZLE] "
 				+ "-l LEVEL [-r ROUNDS] [-m METHOD]");
+		System.out.println("Solve puzzle using given method.");
 		System.out.println();
-		System.out.println("\tPUZZLE = [KQ|GC|XX] where");
-		System.out.println("\t         \tKQ is KQueens");
+		System.out.println("  -v        \tvisualize result");
+		System.out.println("  -p PUZZLE \tpuzzle selection");
+		System.out.println("            \tPUZZLE = [KQ|GC|MS] where");
+		System.out.println("            \t\tKQ is KQueens,");
 		System.out
-				.println("\t         \tGC is GraphColoring, this is implicit");
-		System.out.println("\t         \tXX is YYY");
-		System.out.println();
-		System.out.println("\tLEVEL  = [INT|FILENAME] where");
+				.println("           \t\tGC is Graph Coloring, this is implicit,");
+		System.out.println("           \t\tRRT is Round Robin Tournament");
+		System.out.println("  -l LEVEL  \tlevel selection");
+		System.out.println("            \tLEVEL= [INT|FILENAME] where");
 		System.out
-				.println("\t         \tINT is number of queens in case of KQ");
+				.println("           \t\tINT is number of queens in case of KQ");
 		System.out
-				.println("\t         \tFILENAME is path to source file in case of GC");
-		System.out.println();
+				.println("           \t\tFILENAME is path to source file in case of GC");
 		System.out
-				.println("\tROUNDS  express count of how many times puzzle is being solved.");
-		System.out.println("\t        is implicit 20");
-		System.out.println();
-		System.out.println("\tMETHOD = [SA|MC] where");
-		System.out.println("\t          \tSA is Simulated Annealing");
+				.println("           \t\tINT is size of square in case of MS");
 		System.out
-				.println("\t          \tMC is Minimum Conflicts, this is implicit value");
+				.println("  -r ROUNDS\texpress count of how many times puzzle is being solved.");
+		System.out.println("         \timplicit is 20");
+		System.out.println("  -m METHOD selection of method ");
+		System.out.println("         \tMETHOD = [SA|MC] where");
+		System.out.println("         \t\tSA is Simulated Annealing");
+		System.out
+				.println("         \t\tMC is Minimum Conflicts, this is implicit value");
 
 	}
 

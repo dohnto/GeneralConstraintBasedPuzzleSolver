@@ -3,7 +3,7 @@ package gps;
 public enum Puzzle {
 	KQueens("KQ"), 
 	GraphColoring("GC"),
-	MS("MS");
+	RoundRobinTournament("RRT");
 
 	private String puzzle;
 

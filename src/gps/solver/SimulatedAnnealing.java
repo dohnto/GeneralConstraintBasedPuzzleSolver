@@ -10,7 +10,7 @@ import gps.statemanager.LocalStateManager;
 
 public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 
-	protected double T_MAX = 20;		// starting temperature
+	protected double T_MAX = 10;		// starting temperature
 	protected double T_ALPHA = 0.9999; // cooling coeficient
 	protected double T_EPSILON = 0.01; // min temperature
 
@@ -46,6 +46,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 			}
 			T *= T_ALPHA;
 		}
+		stateManager.printState(state);
 		return state;
 	}
 }

@@ -42,17 +42,26 @@ public class GraphColorStateManager extends LocalStateManager {
 
 		double best = evaluateState(state);
 
+		ArrayList<Integer> possibleColor = new ArrayList<>();
+		possibleColor.add(state.get(conflictVertex));
+		
 		for (int color = domain.begin(); color <= domain.end(); color++) {
 			if (color != state.get(conflictVertex)) {
 				ArrayList<Integer> modified = new ArrayList<>(state);
 				modified.set(conflictVertex, color);
 				double quality = evaluateState(modified); 
-				if (quality <= best) {
-					retval = modified;
+				if (quality < best) {
+					//retval = modified;
 					best = quality;
+					possibleColor.clear();
+					possibleColor.add(color);
+				} else if (quality == best) {
+					possibleColor.add(color);
 				}
 			}
 		}
+		
+		retval.set(conflictVertex, possibleColor.get(getRandomInt(0, possibleColor.size()-1)));
 
 		return retval;
 	}
