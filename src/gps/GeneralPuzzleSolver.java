@@ -49,10 +49,17 @@ public class GeneralPuzzleSolver {
 			}
 			switch (method) {
 			case MinimumConflicts:
-				solver = new GraphColorMC(vertices, new Range(0, GRAPH_COLORS - 1));
+				solver = new GraphColorMC(vertices, new Range(0,
+						GRAPH_COLORS - 1));
 				break;
 			case SimulatedAnnealing:
-				solver = new GraphColorSA(vertices, new Range(0, GRAPH_COLORS - 1));
+				solver = new GraphColorSA(vertices, new Range(0,
+						GRAPH_COLORS - 1));
+				break;
+
+			default:
+				System.err.println("ERROR: This should never happen!");
+				System.exit(-1);
 				break;
 			}
 			// solver = (method == Method.SimulatedAnnealing) ? new
@@ -62,7 +69,8 @@ public class GeneralPuzzleSolver {
 		} else if (puzzle == Puzzle.KQueens) { // TODO
 			switch (method) {
 			case MinimumConflicts:
-				solver = new KQueensMC(puzzleLevelInt, new Range(0, puzzleLevelInt - 1));
+				solver = new KQueensMC(puzzleLevelInt, new Range(0,
+						puzzleLevelInt - 1));
 				break;
 
 			case SimulatedAnnealing:
@@ -80,6 +88,20 @@ public class GeneralPuzzleSolver {
 			// : new GraphColorMC(puzzleLevelInt, new Range(0,
 			// puzzleLevelInt));
 		} else { // PUZZLE_XX TODO
+			switch (method) {
+			case MinimumConflicts:
+				break;
+
+			case SimulatedAnnealing:
+				solver = new MagicSquareSA(puzzleLevelInt, new Range(1,
+						puzzleLevelInt * puzzleLevelInt));
+				break;
+
+			default:
+				System.err.println("ERROR: This should never happen!");
+				System.exit(-1);
+				break;
+			}
 		}
 
 		return solver;
@@ -161,8 +183,8 @@ public class GeneralPuzzleSolver {
 					puzzle = Puzzle.KQueens;
 				} else if (arg.compareTo(Puzzle.GraphColoring.getKey()) == 0) {
 					puzzle = Puzzle.GraphColoring;
-				} else if (arg.compareTo(Puzzle.XX.getKey()) == 0) {
-					puzzle = Puzzle.XX;
+				} else if (arg.compareTo(Puzzle.MS.getKey()) == 0) {
+					puzzle = Puzzle.MS;
 				}
 				break;
 			//
@@ -219,7 +241,7 @@ public class GeneralPuzzleSolver {
 			puzzleLevelS = level;
 		} else if (puzzle == Puzzle.KQueens) {
 			puzzleLevelInt = Integer.parseInt(level);
-		} else if (puzzle == Puzzle.XX) {
+		} else if (puzzle == Puzzle.MS) {
 			puzzleLevelInt = Integer.parseInt(level);
 		}
 
