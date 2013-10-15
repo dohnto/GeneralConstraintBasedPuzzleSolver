@@ -1,9 +1,12 @@
 package gps.statemanager.kqueens;
 
 import gps.statemanager.LocalStateManager;
+
 import java.util.ArrayList;
+
 import gps.Range;
 import static gps.statemanager.LocalStateManager.getRandomInt;
+
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -126,6 +129,26 @@ public class KQueensStateManager extends LocalStateManager {
 
     @Override
     public ArrayList<Integer> getRandomNeighbour(ArrayList<Integer> state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	ArrayList<Integer> retval = new ArrayList<>(state);
+    	
+    	int row = getRandomInt(domain.begin(), domain.end());
+    	int column = getRandomInt(domain.begin(), domain.end());
+    	
+    	retval.set(row, column);
+    	return retval;
     }
+
+	@Override
+	public double evaluateState(ArrayList<Integer> state) {
+		double quality = 0.0;
+		for(int qi = 0; qi < size; qi++) {            
+            for(int qj = 0; qj < size; qj++) {                
+                // check conflicts - 2 queens in the same column or diagonal
+                if(qi != qj && isConflict(qi, qj, state)) {                    
+                    quality += 0.5;
+                }
+            }
+        }
+		return quality;
+	}
 }

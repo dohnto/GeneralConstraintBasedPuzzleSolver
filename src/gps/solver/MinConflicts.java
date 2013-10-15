@@ -1,13 +1,12 @@
 package gps.solver;
 
-import gps.Range;
 import gps.statemanager.LocalStateManager;
 import java.util.ArrayList;
 
 public abstract class MinConflicts extends ConstraintBasedLocalSearch {        
     
     /* PROPERTIES */   
-    private int MAX_STEPS = 10000;
+    private int MAX_STEPS = 60000;
     
     /* METHODS */   
     

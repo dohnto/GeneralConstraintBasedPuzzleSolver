@@ -1,6 +1,5 @@
 package gps.solver;
 
-import gps.Range;
 import gps.statemanager.LocalStateManager;
 import java.util.ArrayList;
 

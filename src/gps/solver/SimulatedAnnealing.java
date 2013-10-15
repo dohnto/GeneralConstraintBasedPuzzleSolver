@@ -46,6 +46,7 @@ public class SimulatedAnnealing extends ConstraintBasedLocalSearch {
 			}
 			T *= T_ALPHA;
 		}
+		stateManager.printState(state);
 		return state;
 	}
 }

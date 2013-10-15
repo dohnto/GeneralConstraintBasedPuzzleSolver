@@ -1,6 +1,5 @@
 package gps.solver;
 
-import gps.statemanager.LocalStateManager;
 import gps.statemanager.kqueens.KQueensStateManager;
 import gps.Range;
 
