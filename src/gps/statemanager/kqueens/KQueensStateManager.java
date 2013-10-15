@@ -40,6 +40,8 @@ public class KQueensStateManager extends LocalStateManager {
     @Override
     public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state, 
                                                      int conflictQueen) {
+        System.out.println("Get intelligent neighbour");
+        
         ArrayList<Integer> newState  = new ArrayList(state);
         ArrayList<Integer> conflicts = new ArrayList<>();
         for(int i = 0; i < size; i++) conflicts.add(0);
@@ -48,16 +50,25 @@ public class KQueensStateManager extends LocalStateManager {
         for(int i = 0; i < size; i++) {
             newState.set(conflictQueen, i);
             for(int otherQueen = 0; otherQueen < size; otherQueen++) {                
+                if(conflictQueen == otherQueen) continue;
                 if(isConflict(conflictQueen, otherQueen, newState))
                     conflicts.set(i, conflicts.get(i) + 1);
             }
         }
         
+        System.out.println("Conflicts: " + conflicts);
+        
         // place queen to the best position
         int currentConflicts = conflicts.get(state.get(conflictQueen));        
         int minConflicts     = Collections.min(conflicts);
         
+        System.out.println("Current conflicts: " + currentConflicts);
+        System.out.println("Min     conflicts: " + minConflicts);
+        
         if(currentConflicts == minConflicts) { /* no better position */
+            System.out.println("--better position found: NO--");
+            
+            // find columns of the same number of conflicts
             ArrayList<Integer> possibleColumns = new ArrayList<>();
             for(int c = 0; c < size; c++) {
                 if(conflicts.get(c) == minConflicts) {
@@ -65,14 +76,21 @@ public class KQueensStateManager extends LocalStateManager {
                 }
             }
             
+            
             // randomly choose one of the other best positions (if any)
-            possibleColumns.remove(state.get(conflictQueen));
+            possibleColumns.remove(new Integer(state.get(conflictQueen)));
+            System.out.println("possible columns: " + possibleColumns);
+            
             if(!possibleColumns.isEmpty()) {
                 int column = getRandomInt(0, possibleColumns.size() - 1);
                 state.set(conflictQueen, possibleColumns.get(column));
-            }
+                System.out.println("chosen column: " + possibleColumns.get(column));
+            }            
         } else {    /* better position found */
-            state.set(conflictQueen, conflicts.indexOf(minConflicts));
+            System.out.println("--better position found: YES--");
+            int column = conflicts.indexOf(minConflicts);
+            state.set(conflictQueen, column);
+            System.out.println("chosen column: " + column);
         }
         
         return state;
