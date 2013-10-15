@@ -9,7 +9,7 @@ import gps.statemanager.LocalStateManager;
 
 public class RoundRobinTournamentStateManager extends LocalStateManager {
 	private int rounds;
-	private int matchesInRound;
+	private int matchesInRound;        
 
 	public RoundRobinTournamentStateManager(int size, Range domain) {
 		super(size, domain);
@@ -21,11 +21,11 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
 		
 		rounds = size - 1;
 		matchesInRound = size / 2;
-		this.size = size * rounds; // since common size is not correct
+		this.size = matchesInRound * rounds; // since common size is not correct
 	}
 
 	public ArrayList<Integer> getInitialState() {
-		ArrayList<Integer> state = new ArrayList<>(size);
+		ArrayList<Integer> state = new ArrayList<>(size*2);
 		for (int r = 0; r < rounds; r++) { // for each round
 			ArrayList<Integer> leftovers = new ArrayList<>();
 			for (int i = domain.begin(); i <= domain.end(); i++) {
@@ -78,7 +78,12 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
 
 	@Override
 	public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
-		// TODO Automaticky generovaný stub metody
+            short matches[][] = new short[size][size];
+            ArrayList<Integer> conflicts = new ArrayList<>();
+            
+            for(int i = 0; i < size; i++);
+            
+            
 		return null;
 	}
 

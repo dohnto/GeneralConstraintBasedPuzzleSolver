@@ -66,7 +66,7 @@ public class GeneralPuzzleSolver {
 			// GraphColorSA(
 			// puzzleLevelS) : new GraphColorMC(puzzleLevelInt, new Range(
 			// 0, puzzleLevelInt));
-		} else if (puzzle == Puzzle.KQueens) { // TODO
+		} else if (puzzle == Puzzle.KQueens) {
 			switch (method) {
 			case MinimumConflicts:
 				solver = new KQueensMC(puzzleLevelInt, new Range(0,
@@ -87,7 +87,7 @@ public class GeneralPuzzleSolver {
 			// solver = (method == METHOD_SA) ? new KQueensSA(puzzleLevelS)
 			// : new GraphColorMC(puzzleLevelInt, new Range(0,
 			// puzzleLevelInt));
-		} else { // PUZZLE_XX TODO
+		} else { // ROUND ROBIN TOURNAMENT
 			switch (method) {
 			case MinimumConflicts:
 				solver = new RoundRobinTournamentMC(puzzleLevelInt, new Range(

@@ -38,7 +38,7 @@ public abstract class MinConflicts extends ConstraintBasedLocalSearch {
             // Get conflicting variables
             ArrayList<Integer> conflicts = stateManager.getConflicts(state);
             
-            System.out.println("Conflicting: " + conflicts);
+//            System.out.println("Conflicting: " + conflicts);
             
             // Check whether puzzle is solved
             if(conflicts.isEmpty()) break;
@@ -47,17 +47,17 @@ public abstract class MinConflicts extends ConstraintBasedLocalSearch {
             int idx  = LocalStateManager.getRandomInt(0, conflicts.size() - 1);
             int c    = conflicts.get(idx);
             
-            System.out.println("Chosen: " + c);                        
+//            System.out.println("Chosen: " + c);                        
             
             // Set new (better) value for the conflicting variable
             state = stateManager.getInteligentNeighbour(state, c);          
             
-            System.out.println("NEW STATE:");
-            stateManager.printState(state);
+//            System.out.println("NEW STATE:");
+//            stateManager.printState(state);
         }
         
-        System.out.println("FINAL STATE:");
-        stateManager.printState(state);
+//        System.out.println("FINAL STATE:");
+//        stateManager.printState(state);
         
         return state;
     }            
