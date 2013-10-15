@@ -45,8 +45,12 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
 
 	@Override
 	public ArrayList<Integer> getRandomNeighbour(ArrayList<Integer> state) {
-		// TODO Automaticky generovaný stub metody
-		return null;
+		ArrayList<Integer> neighbour = new ArrayList<Integer>(state);
+		int round = getRandomInt(0, rounds - 1);
+		int match1 = getRandomInt(0, matchesInRound - 1);
+		int match2 = getRandomInt(0, matchesInRound - 1);
+		Collections.swap(neighbour, round*matchesInRound*2 + match1*2, round*matchesInRound*2 + match2*2);
+		return neighbour;
 	}
 
 	@Override

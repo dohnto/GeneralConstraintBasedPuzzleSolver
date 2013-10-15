@@ -1,6 +1,7 @@
 package gps.solver;
 
 import gps.statemanager.LocalStateManager;
+
 import java.util.ArrayList;
 
 public abstract class ConstraintBasedLocalSearch {
@@ -44,5 +45,10 @@ public abstract class ConstraintBasedLocalSearch {
     public double evaluateState(ArrayList<Integer> state) {
     	return stateManager.evaluateState(state);
     }
+
+	public void printState(ArrayList<Integer> state2) {
+		stateManager.printState(state2);
+		
+	}
     
 }
