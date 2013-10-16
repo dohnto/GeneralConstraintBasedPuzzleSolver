@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public abstract class MinConflicts extends ConstraintBasedLocalSearch {        
     
     /* PROPERTIES */   
-    private int MAX_STEPS = 60000;
+    private int MAX_STEPS = 100000;
     
     /* METHODS */   
     
@@ -39,6 +39,7 @@ public abstract class MinConflicts extends ConstraintBasedLocalSearch {
             ArrayList<Integer> conflicts = stateManager.getConflicts(state);
             
 //            System.out.println("Conflicting: " + conflicts);
+//            System.out.println("Quality: " + stateManager.evaluateState(state));
             
             // Check whether puzzle is solved
             if(conflicts.isEmpty()) break;
@@ -56,8 +57,8 @@ public abstract class MinConflicts extends ConstraintBasedLocalSearch {
 //            stateManager.printState(state);
         }
         
-//        System.out.println("FINAL STATE:");
-//        stateManager.printState(state);
+        System.out.println("FINAL STATE:");
+        stateManager.printState(state);
         
         return state;
     }            
