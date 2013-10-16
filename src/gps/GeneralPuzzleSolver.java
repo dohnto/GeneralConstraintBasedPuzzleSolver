@@ -3,6 +3,7 @@ package gps;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -26,14 +27,31 @@ public class GeneralPuzzleSolver {
 	private static int puzzleLevelInt;
 	private static int MAX_STEPS = 100000;
 	private static int GRAPH_COLORS = 4;
+	private static Boolean visualize = false;
 
-	public static void main(String[] args) throws Exception {
-		if (!parseCmdParams(args)) {
-			usage(progname);
-			return;
+	public static void main(String[] args) {
+		Boolean showHelp = false;
+
+		try {
+			showHelp = !parseCmdParams(args);
+		} catch (Exception e) {
+			showHelp = true;
+			System.err.println("ERROR: " + e.getMessage());
+		} finally {
+			if (showHelp) {
+				usage(progname);
+				return;
+			}
 		}
 
-		ConstraintBasedLocalSearch solver = chooseSolver();
+		ConstraintBasedLocalSearch solver;
+
+		try {
+			solver = chooseSolver();
+		} catch (Exception e) {
+			System.err.println("ERROR: " + e.getMessage());
+			return;
+		}
 
 		solve(solver, rounds);
 	}
@@ -110,36 +128,31 @@ public class GeneralPuzzleSolver {
 	}
 
 	public static void solve(ConstraintBasedLocalSearch solver, int rounds) {
-		ArrayList<Integer> steps = new ArrayList<Integer>();
-		ArrayList<Double> qualities = new ArrayList<Double>();
+		ArrayList<Result> results = new ArrayList<>();
 		for (int i = 0; i < rounds; i++) {
 			solver.reset();
 			ArrayList<Integer> state = solver.solve(MAX_STEPS);
-			steps.add(solver.getStep());
-			qualities.add(solver.evaluateState(state));
-			System.out
-					.println("Step = " + solver.getStep()
-							+ " and solution quality is "
-							+ solver.evaluateState(state));
-		}
-
-		printStatistics(steps, qualities);
-
-	}
-
-	private static int getQuickestSolution(ArrayList<Integer> steps,
-			ArrayList<Double> qualities) {
-		int bestStep = Integer.MAX_VALUE;
-		for (int i = 0; i < qualities.size(); ++i) {
-			if (qualities.get(i) == 0.0 && steps.get(i) < bestStep) {
-				bestStep = steps.get(i);
+			results.add(new Result(solver.getStep(), solver
+					.evaluateState(state)));
+			if (visualize) {
+				solver.printState(state);
 			}
+			System.out.println("Found solution with quality "
+					+ solver.evaluateState(state) + " in step "
+					+ solver.getStep());
 		}
-		return bestStep;
+
+		printStatistics(results);
+
 	}
 
-	private static void printStatistics(ArrayList<Integer> steps,
-			ArrayList<Double> qualities) {
+	private static void printStatisticsForRounds(List<Result> results) {
+		ArrayList<Integer> steps = new ArrayList<>();
+		ArrayList<Double> qualities = new ArrayList<>();
+		for (Result rs : results) {
+			steps.add(rs.getSteps());
+			qualities.add(rs.getQuality());
+		}
 		DecimalFormat df = new DecimalFormat("#.##");
 
 		double meanOfQualities = getMean(qualities);
@@ -147,10 +160,7 @@ public class GeneralPuzzleSolver {
 		double bestEvaluation = Collections.min(qualities);
 		double stddevOfQualities = getStandardDeviation(qualities);
 		double stddevOfSteps = getStandardDeviation(steps);
-		int quickestSolution = getQuickestSolution(steps, qualities);
-
-		System.out.println("--------------------------------------");
-		System.out.println(rounds + " runs");
+		int quickestSolution = Collections.max(results).getSteps();
 		System.out.println("Best evaluation: " + bestEvaluation);
 
 		System.out.println("Quickest solution: "
@@ -162,10 +172,23 @@ public class GeneralPuzzleSolver {
 		System.out.println("Avarage number of steps: " + df.format(meanOfSteps)
 				+ " +-" + df.format(stddevOfSteps));
 		System.out.println("--------------------------------------");
-
 	}
 
-	private static Boolean parseCmdParams(String[] argv) {
+	private static void printStatistics(ArrayList<Result> results) {
+		System.out.println("--------------------------------------");
+		System.out.println("All " + rounds + " runs");
+		printStatisticsForRounds(results);
+		int bestOfRuns = 20;
+		if (results.size() > bestOfRuns) {
+			Collections.sort(results);
+
+			Collections.reverse(results);
+			System.out.println(bestOfRuns + " best-of-runs");
+			printStatisticsForRounds(results.subList(0, 20));
+		}
+	}
+
+	private static Boolean parseCmdParams(String[] argv) throws Exception {
 		Boolean retval = true;
 		int c;
 		String arg;
@@ -187,6 +210,8 @@ public class GeneralPuzzleSolver {
 					puzzle = Puzzle.GraphColoring;
 				} else if (arg.compareTo(Puzzle.RoundRobinTournament.getKey()) == 0) {
 					puzzle = Puzzle.RoundRobinTournament;
+				} else {
+					throw new Exception("unrecognized puzzle");
 				}
 				break;
 			//
@@ -205,6 +230,11 @@ public class GeneralPuzzleSolver {
 				rounds = Integer.parseInt(arg);
 				break;
 			//
+
+			case 'v':
+				visualize = true;
+				break;
+
 			case 'h':
 				retval = false;
 				break;
@@ -245,6 +275,8 @@ public class GeneralPuzzleSolver {
 			puzzleLevelInt = Integer.parseInt(level);
 		} else if (puzzle == Puzzle.RoundRobinTournament) {
 			puzzleLevelInt = Integer.parseInt(level);
+		} else {
+			throw new Exception("unrecognized puzzle");
 		}
 
 		return retval;
@@ -299,4 +331,5 @@ public class GeneralPuzzleSolver {
 		}
 		return Math.sqrt(stddev / list.size());
 	}
+
 }
