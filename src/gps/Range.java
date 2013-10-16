@@ -3,27 +3,21 @@ package gps;
 /**
  * Class for storing the pair of integers denoting the allowed value range.
  */
-public class Range {
-
-	/* Properties */
-
-	private int begin;
-	private int end;
+public class Range extends Pair {
 
 	/* Methods */
 
 	// constructor
 	public Range(int begin, int end) {
-		this.begin = begin;
-		this.end = end;
+            super(begin, end);            
 	}
 
 	// getter
 	public int begin() {
-		return this.begin;
+		return a;
 	}
 
 	public int end() {
-		return this.end;
+		return b;
 	}
 }
