@@ -1,5 +1,8 @@
 package gps;
 
+/**
+ * Results of the runs for statistics.
+ */
 public class Result implements Comparable<Result>{
 	int steps;
 	double quality;

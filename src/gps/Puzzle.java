@@ -1,5 +1,7 @@
 package gps;
-
+/**
+ * Supported puzzles
+ */
 public enum Puzzle {
 	KQueens("KQ"), 
 	GraphColoring("GC"),
