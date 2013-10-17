@@ -1,12 +1,9 @@
 package gps.statemanager.kqueens;
 
 import gps.statemanager.LocalStateManager;
-
 import java.util.ArrayList;
-
 import gps.Range;
 import static gps.statemanager.LocalStateManager.getRandomInt;
-
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -17,12 +14,24 @@ public class KQueensStateManager extends LocalStateManager {
         super(size, domain);
     }
     
+    /**
+     * Check whether 2 queens are conflicting (for MC)
+     * @param qi queen 1
+     * @param qj queen 2
+     * @param state
+     * @return 
+     */
     private boolean isConflict(int qi, int qj, ArrayList<Integer> state) {
         return (state.get(qi) ==  state.get(qj))                      || 
                (state.get(qi) == (state.get(qj) + Math.abs(qi - qj))) ||
                (state.get(qi) == (state.get(qj) - Math.abs(qi - qj)));
     }
     
+    /**
+     * Returns list of conflicting queens (for MC)
+     * @param state
+     * @return 
+     */
     @Override
     public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
         HashSet conflicts = new HashSet();
@@ -39,7 +48,13 @@ public class KQueensStateManager extends LocalStateManager {
         
         return new ArrayList(conflicts);
     }
-        
+    
+    /**
+     * Generate the best possible new state (for MC)
+     * @param state
+     * @param conflictQueen
+     * @return 
+     */
     @Override
     public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state, 
                                                      int conflictQueen) {
@@ -87,6 +102,10 @@ public class KQueensStateManager extends LocalStateManager {
         return state;
     }
     
+    /**
+     * Visualize given state
+     * @param state 
+     */
     @Override
     public void printState(ArrayList<Integer> state) {
         // 1st line:
@@ -115,6 +134,11 @@ public class KQueensStateManager extends LocalStateManager {
         System.out.format("+%n");
     }
 
+    /**
+     * Generate new state randomly (for SA)
+     * @param state
+     * @return 
+     */
     @Override
     public ArrayList<Integer> getRandomNeighbour(ArrayList<Integer> state) {
     	ArrayList<Integer> retval = new ArrayList<>(state);

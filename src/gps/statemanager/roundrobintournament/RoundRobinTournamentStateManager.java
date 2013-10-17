@@ -13,9 +13,14 @@ import java.util.Map;
 
 public class RoundRobinTournamentStateManager extends LocalStateManager {
 
-    private int rounds;
+    private int rounds;         
     private int matchesInRound;
 
+    /**
+     * Constructor
+     * @param size number of teams
+     * @param domain lowest and highest team number
+     */
     public RoundRobinTournamentStateManager(int size, Range domain) {
         super(size, domain);
 
@@ -29,6 +34,10 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
         this.size = matchesInRound * rounds; // since common size is not correct
     }
 
+    /**
+     * Initialize
+     * @return state
+     */
     public ArrayList<Integer> getInitialState() {
         ArrayList<Integer> state = new ArrayList<>(size * 2);
         for (int r = 0; r < rounds; r++) { // for each round
@@ -48,6 +57,11 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
         return state;
     }
 
+    /**
+     * Generate new state randomly (for SA)
+     * @param state
+     * @return new state
+     */
     @Override
     public ArrayList<Integer> getRandomNeighbour(ArrayList<Integer> state) {
         ArrayList<Integer> neighbour = new ArrayList<Integer>(state);
@@ -58,6 +72,12 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
         return neighbour;
     }
 
+    /**
+     * Generate the best possible new state (for MC)
+     * @param state
+     * @param conflictMatch chosen variable to change - team pair
+     * @return new state
+     */
     @Override
     public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state,
             int conflictMatch) {
@@ -82,6 +102,7 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
             ArrayList<Integer> newState = new ArrayList(state);           
             swapTeams(newState, i, conflictMatch);                        
 
+            // find best new position
             double quality = evaluateState(newState);
             if (quality < best) {
                 best = quality;
@@ -92,18 +113,25 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
             }
         }       
 
+        // randomly choose from the same evaluated new positions
         int randIdx = LocalStateManager.getRandomInt(0, possibleSwaps.size()-1);
         swapTeams(state, conflictMatch, possibleSwaps.get(randIdx));        
         
         return state;
     }
 
+    /**
+     * Swap two teams in one round
+     * @param state
+     * @param idxA
+     * @param idxB 
+     */
     private void swapTeams(ArrayList<Integer> state, int idxA, int idxB) {
         int aux = state.get(idxA);
         state.set(idxA, state.get(idxB));
         state.set(idxB, aux);
     }
-
+   
     @Override
     public double evaluateState(ArrayList<Integer> state) {
         double quality = 0.0;   // the less the better
@@ -131,6 +159,10 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
         return quality;
     }
 
+    /**
+     * Visualize given state
+     * @param state 
+     */
     @Override
     public void printState(ArrayList<Integer> state) {
         System.out.println(state);
@@ -145,6 +177,11 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
         }
     }
 
+    /**
+     * Get conflicting pairs of teams (for MC)
+     * @param state
+     * @return list of conflicting pairs
+     */
     @Override
     public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
         // number of conflicts for each variable

@@ -32,6 +32,7 @@ public class GeneralPuzzleSolver {
 	public static void main(String[] args) {
 		Boolean showHelp = false;
 
+                // parameter parsing
 		try {
 			showHelp = !parseCmdParams(args);
 		} catch (Exception e) {
@@ -46,6 +47,7 @@ public class GeneralPuzzleSolver {
 
 		ConstraintBasedLocalSearch solver;
 
+                // choosing the solver according to parameters (MC or SA for given puzzle)
 		try {
 			solver = chooseSolver();
 		} catch (Exception e) {
@@ -56,6 +58,11 @@ public class GeneralPuzzleSolver {
 		solve(solver, rounds);
 	}
 
+        /**
+         * Chooses the appropriate solver (SA or MC for gven puzzle) 
+         * @return
+         * @throws Exception 
+         */
 	public static ConstraintBasedLocalSearch chooseSolver() throws Exception {
 		ConstraintBasedLocalSearch solver = null;
 
@@ -127,6 +134,11 @@ public class GeneralPuzzleSolver {
 		return solver;
 	}
 
+        /**
+         * Calls the solver to solve the puzzle and prints the statistics
+         * @param solver
+         * @param rounds 
+         */
 	public static void solve(ConstraintBasedLocalSearch solver, int rounds) {
 		ArrayList<Result> results = new ArrayList<>();
 		for (int i = 0; i < rounds; i++) {
