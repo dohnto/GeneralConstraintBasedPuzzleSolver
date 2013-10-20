@@ -30,8 +30,8 @@ public abstract class MinConflicts extends ConstraintBasedLocalSearch {
         // Initial puzzle state - randomly initializes the variables
         state = stateManager.getInitialState();
         
-        System.out.println("INITIAL STATE:");
-        stateManager.printState(state);
+        //System.out.println("INITIAL STATE:");
+        //stateManager.printState(state);
         
         // Main loop
         while (step++ < MAX_STEPS) {                        
@@ -57,8 +57,8 @@ public abstract class MinConflicts extends ConstraintBasedLocalSearch {
 //            stateManager.printState(state);
         }
         
-        System.out.println("FINAL STATE:");
-        stateManager.printState(state);
+        //System.out.println("FINAL STATE:");
+        //stateManager.printState(state);
         
         return state;
     }            
