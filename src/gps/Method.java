@@ -1,5 +1,8 @@
 package gps;
 
+/**
+ * Supported methods for solving the puzzles
+ */
 public enum Method {
 	MinimumConflicts("MC"), 
 	SimulatedAnnealing("SA");
