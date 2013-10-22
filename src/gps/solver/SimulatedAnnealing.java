@@ -1,11 +1,8 @@
 package gps.solver;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Random;
 
-import gps.Range;
 import gps.statemanager.LocalStateManager;
 
 public class SimulatedAnnealing extends ConstraintBasedLocalSearch {

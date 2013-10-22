@@ -18,6 +18,7 @@
 			& 8  & 0.0 $\pm$ 0.0 & 0.0 & 198.80 $\pm$ 125.98 & 25\\ % 5000 runs
 			& 25 & 0.0 $\pm$ 0.0 & 0.0 & 34499.0 $\pm$ 677.66 & 32532 \\ % 5000 runs
 			& 1000 &  0.0 $\pm$ 0.0 & 0.0 & 56967.55 $\pm$ 1284.08 & 54333\\ % 100 runs
+		\midrule
 		\multirow{3}{*}{Minimum Conflicts}
 			& 8  & 0.0 $\pm$ 0.0 & 0.0 & 4.15 $\pm$ 0.65 & 3\\ % 5000 runs
 			& 25 & 0.0 $\pm$ 0.0 & 0.0 & 18.15 $\pm$ 2.31 & 13\\ % 5000 runs
@@ -25,3 +26,37 @@
 		\bottomrule[2.0px]
 	\end{tabular}
 \end{table*}
+
+\begin{figure}[h]
+	\centering
+	\caption{Optimal solution for 8 queens found by Simulated Annealing and Minimum Conflicts.}
+	\label{kqueens_demo}
+\begin{minipage}{0.4\textwidth}
+		\begin{verbatim}
++ - - - - - - - - +
+| . . . X . . . . |
+| . X . . . . . . |
+| . . . . . . X . |
+| . . X . . . . . |
+| . . . . . X . . |
+| . . . . . . . X |
+| . . . . X . . . |
+| X . . . . . . . |
++ - - - - - - - - +
+		\end{verbatim}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+		\begin{verbatim}
++ - - - - - - - - +
+| . . . . . X . . |
+| . . X . . . . . |
+| . . . . . . X . |
+| . X . . . . . . |
+| . . . . . . . X |
+| . . . . X . . . |
+| X . . . . . . . |
+| . . . X . . . . |
++ - - - - - - - - +
+		\end{verbatim}
+\end{minipage}
+\end{figure}

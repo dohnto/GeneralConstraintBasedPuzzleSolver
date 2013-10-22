@@ -1,6 +1,5 @@
 package gps.statemanager.roundrobintournament;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -99,7 +98,7 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
                 continue;
             }
 
-            ArrayList<Integer> newState = new ArrayList(state);           
+            ArrayList<Integer> newState = new ArrayList<Integer>(state);           
             swapTeams(newState, i, conflictMatch);                        
 
             // find best new position
@@ -165,7 +164,7 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
      */
     @Override
     public void printState(ArrayList<Integer> state) {
-        System.out.println(state);
+    	return;/*
         for (int r = 0; r < rounds; r++) {
             for (int i = 0; i < matchesInRound; i += 1) {
                 System.out.print(state.get(r * matchesInRound * 2 + i * 2));
@@ -174,7 +173,7 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
                 System.out.print(" ");
             }
             System.out.println();
-        }
+        }*/
     }
 
     /**
@@ -186,7 +185,7 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
     public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
         // number of conflicts for each variable
         Map<Pair, Integer> conflictsMap = new HashMap<>();
-        HashSet conflictsIndices = new HashSet();
+        HashSet<Integer> conflictsIndices = new HashSet<Integer>();
 
         // iterate through all variables (pairs team-team)
         for (int i = 0; i < 2 * size; i += 2) {
@@ -206,6 +205,6 @@ public class RoundRobinTournamentStateManager extends LocalStateManager {
             }
         }
 
-        return new ArrayList(conflictsIndices); // list of unique values
+        return new ArrayList<Integer>(conflictsIndices); // list of unique values
     }
 }

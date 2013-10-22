@@ -3,7 +3,6 @@ package gps.statemanager.kqueens;
 import gps.statemanager.LocalStateManager;
 import java.util.ArrayList;
 import gps.Range;
-import static gps.statemanager.LocalStateManager.getRandomInt;
 import java.util.Collections;
 import java.util.HashSet;
 
@@ -34,7 +33,7 @@ public class KQueensStateManager extends LocalStateManager {
      */
     @Override
     public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
-        HashSet conflicts = new HashSet();
+        HashSet<Integer> conflicts = new HashSet<Integer>();
         
         for(int qi = 0; qi < size; qi++) {            
             for(int qj = qi + 1; qj < size; qj++) {                
@@ -46,7 +45,7 @@ public class KQueensStateManager extends LocalStateManager {
             }
         }
         
-        return new ArrayList(conflicts);
+        return new ArrayList<Integer>(conflicts);
     }
     
     /**
@@ -59,7 +58,7 @@ public class KQueensStateManager extends LocalStateManager {
     public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state, 
                                                      int conflictQueen) {
         
-        ArrayList<Integer> newState  = new ArrayList(state);
+        ArrayList<Integer> newState  = new ArrayList<Integer>(state);
         ArrayList<Integer> conflicts = new ArrayList<>();
         for(int i = 0; i < size; i++) conflicts.add(0);
         

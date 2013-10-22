@@ -34,19 +34,11 @@ public abstract class ConstraintBasedLocalSearch {
         return step;
     }
 
-    /**
-     * solve problem
-     */
-    public /*abstract*/ ArrayList<Integer> solve() {// TODO abstract
-        return new ArrayList<Integer>();
-    }
-
     public double evaluateState(ArrayList<Integer> state) {
         return stateManager.evaluateState(state);
     }
 
     public void printState(ArrayList<Integer> state2) {
         stateManager.printState(state2);
-
     }
 }

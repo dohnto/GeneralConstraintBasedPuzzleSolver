@@ -32,25 +32,6 @@ public class GraphColorVertex {
 		neighbours.add(neighbour);
 	}
 	
-	public void print() {
-		System.out.println("Vertex: " + id + " = ["
-				+ getPosX() + " " + getPosY() + "]");
-		System.out.print("\t neighbours: ");
-		for (Integer n: neighbours) {
-			System.out.print(n + " ");
-		}
-		System.out.println();
-	}
-
-	public void print(Integer integer) {
-		System.out.println("Vertex: " + id + " = " + integer);
-		System.out.print("\t neighbours: ");
-		for (Integer n: neighbours) {
-			System.out.print(n + " ");
-		}
-		System.out.println();
-	}
-	
 	public ArrayList<Integer> getNeighbours() {
 		return neighbours;
 	}

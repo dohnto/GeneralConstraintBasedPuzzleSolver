@@ -2,32 +2,31 @@ package gps.statemanager.graphcolor;
 
 import gps.statemanager.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Vector;
 
-import sun.awt.VerticalBagLayout;
-
 import gps.Range;
-import java.lang.reflect.Array;
 
 public class GraphColorStateManager extends LocalStateManager {
-	Range domain;
 	// vertices
 	Vector<GraphColorVertex> vertices;
 
-	// public GraphColorStateManager(String filename) throws Exception {
+	/**
+	 * Initialization
+	 * 
+	 * @param vertices
+	 * @param domain
+	 * @throws Exception
+	 */
 	public GraphColorStateManager(Vector<GraphColorVertex> vertices,
 			Range domain) throws Exception {
 		super(vertices.size(), domain);
 		this.vertices = vertices;
-		this.domain = domain;
 	}
 
+	/**
+	 * Returns random neighbour to given state.
+	 */
 	public ArrayList<Integer> getRandomNeighbour(ArrayList<Integer> state) {
 		ArrayList<Integer> neighbour = new ArrayList<Integer>(state);
 		int index = getRandomInt(0, state.size() - 1);
@@ -35,6 +34,10 @@ public class GraphColorStateManager extends LocalStateManager {
 		return neighbour;
 	}
 
+	/**
+	 * Returns a "better" state close to given state. "Better" is expressed
+	 * according to evaluation function
+	 */
 	@Override
 	public ArrayList<Integer> getInteligentNeighbour(ArrayList<Integer> state,
 			int conflictVertex) {
@@ -44,14 +47,14 @@ public class GraphColorStateManager extends LocalStateManager {
 
 		ArrayList<Integer> possibleColor = new ArrayList<>();
 		possibleColor.add(state.get(conflictVertex));
-		
+
 		for (int color = domain.begin(); color <= domain.end(); color++) {
 			if (color != state.get(conflictVertex)) {
 				ArrayList<Integer> modified = new ArrayList<>(state);
 				modified.set(conflictVertex, color);
-				double quality = evaluateState(modified); 
+				double quality = evaluateState(modified);
 				if (quality < best) {
-					//retval = modified;
+					// retval = modified;
 					best = quality;
 					possibleColor.clear();
 					possibleColor.add(color);
@@ -60,12 +63,17 @@ public class GraphColorStateManager extends LocalStateManager {
 				}
 			}
 		}
-		
-		retval.set(conflictVertex, possibleColor.get(getRandomInt(0, possibleColor.size()-1)));
+
+		retval.set(conflictVertex,
+				possibleColor.get(getRandomInt(0, possibleColor.size() - 1)));
 
 		return retval;
 	}
 
+	/**
+	 * Evaluates given state. Returns 0.0 if state is perfect solution, more
+	 * otherwise.
+	 */
 	public double evaluateState(ArrayList<Integer> state) {
 		double sum = 0;
 		for (int i = 0; i < size; ++i) {
@@ -81,51 +89,16 @@ public class GraphColorStateManager extends LocalStateManager {
 		return sum;
 	}
 
-	public void displayState(ArrayList<Integer> state) {
-
-	}
-
-	public void printState() {
-		System.out.println("----------------------------------");
-		if (vertices != null) {
-			for (GraphColorVertex v : vertices) {
-				v.print();
-			}
-		}
-	}
-
-	public void printStateX(ArrayList<Integer> variables) {
-		System.out.println("----------------------------------");
-
-		if (vertices != null) {
-			if (vertices.size() != variables.size()) {
-				System.err
-						.println("GraphColorStateManager::printState: variables size ("
-								+ variables.size()
-								+ ") != vertices size ("
-								+ vertices.size() + ")");
-				return;
-			}
-			for (int i = 0; i < vertices.size(); i++) {
-				GraphColorVertex v = vertices.get(i);
-				v.print(variables.get(i));
-			}
-		}
-		System.out.println("Objective function of this state is "
-				+ evaluateState(variables));
-	}
-
-	// public int getRandomColor() {
-	// return getRandomInt(domain.begin(), domain.end());
-	// }
-
+	/**
+	 * Prints given state in source code of graphviz.
+	 */
 	public void printState(ArrayList<Integer> state) {
-		final String[] colors = { "#0066B3", "#FFE500", "#00CC00", "#CCCC00" };
+		final String[] colors = { "#0066B3", "#FFE500", "#00CC00", "#CC0000" };
 
 		System.out.println("graph {");
 		System.out.println("rankdir = LR;");
 		for (int i = 0; i < state.size(); i++) {
-			System.out.println("\t\"" + i + " [" + state.get(i) + "]\""
+			System.out.println("\t\"" + i + "\""
 					+ " [style = \"filled\",fillcolor = \""
 					+ colors[state.get(i)] + "\"]");
 		}
@@ -133,9 +106,7 @@ public class GraphColorStateManager extends LocalStateManager {
 			GraphColorVertex v = vertices.get(i);
 			for (int neigh : v.getNeighbours()) {
 				if (neigh > i) {
-					System.out.println("\t\"" + i + " [" + state.get(i)
-							+ "]\" -- \"" + neigh + " [" + state.get(neigh)
-							+ "]\"");
+					System.out.println("\t\"" + i + "\" -- \"" + neigh + "\"");
 				}
 			}
 		}
@@ -143,6 +114,9 @@ public class GraphColorStateManager extends LocalStateManager {
 	}
 
 	@Override
+	/**
+	 * Returns indexes of vertices that are in conflict.
+	 */
 	public ArrayList<Integer> getConflicts(ArrayList<Integer> state) {
 		assert state.size() == vertices.size();
 

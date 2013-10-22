@@ -8,6 +8,12 @@ import java.util.Vector;
 
 public class GraphColorParser {
 
+	/**
+	 * Parse graph color file and save vertices.
+	 * @param filename file to be parsed
+	 * @param vertices output vector
+	 * @return true if process was successful
+	 */
 	public static Boolean parse(String filename,
 			Vector<GraphColorVertex> vertices) {
 

@@ -2,7 +2,7 @@ NAME = gps-doc
 
 all:
 	pdflatex $(NAME)
-#	bibtex $(NAME)
+	bibtex $(NAME)
 	pdflatex $(NAME)
 	cp -f $(NAME).pdf ../$(NAME).pdf
 

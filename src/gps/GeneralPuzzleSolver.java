@@ -5,16 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
-import java.util.logging.Level;
 
 import gps.solver.*;
-import gps.statemanager.*;
 import gps.statemanager.graphcolor.GraphColorParser;
-import gps.statemanager.graphcolor.GraphColorStateManager;
 import gps.statemanager.graphcolor.GraphColorVertex;
 import gnu.getopt.*;
-
-import java.io.IOException;
 
 public class GeneralPuzzleSolver {
 	// name of program
@@ -32,7 +27,7 @@ public class GeneralPuzzleSolver {
 	public static void main(String[] args) {
 		Boolean showHelp = false;
 
-                // parameter parsing
+		// parameter parsing
 		try {
 			showHelp = !parseCmdParams(args);
 		} catch (Exception e) {
@@ -47,7 +42,8 @@ public class GeneralPuzzleSolver {
 
 		ConstraintBasedLocalSearch solver;
 
-                // choosing the solver according to parameters (MC or SA for given puzzle)
+		// choosing the solver according to parameters (MC or SA for given
+		// puzzle)
 		try {
 			solver = chooseSolver();
 		} catch (Exception e) {
@@ -58,11 +54,12 @@ public class GeneralPuzzleSolver {
 		solve(solver, rounds);
 	}
 
-        /**
-         * Chooses the appropriate solver (SA or MC for gven puzzle) 
-         * @return
-         * @throws Exception 
-         */
+	/**
+	 * Chooses the appropriate solver (SA or MC for gven puzzle)
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public static ConstraintBasedLocalSearch chooseSolver() throws Exception {
 		ConstraintBasedLocalSearch solver = null;
 
@@ -87,10 +84,6 @@ public class GeneralPuzzleSolver {
 				System.exit(-1);
 				break;
 			}
-			// solver = (method == Method.SimulatedAnnealing) ? new
-			// GraphColorSA(
-			// puzzleLevelS) : new GraphColorMC(puzzleLevelInt, new Range(
-			// 0, puzzleLevelInt));
 		} else if (puzzle == Puzzle.KQueens) {
 			switch (method) {
 			case MinimumConflicts:
@@ -108,10 +101,6 @@ public class GeneralPuzzleSolver {
 				System.exit(-1);
 				break;
 			}
-
-			// solver = (method == METHOD_SA) ? new KQueensSA(puzzleLevelS)
-			// : new GraphColorMC(puzzleLevelInt, new Range(0,
-			// puzzleLevelInt));
 		} else { // ROUND ROBIN TOURNAMENT
 			switch (method) {
 			case MinimumConflicts:
@@ -134,11 +123,12 @@ public class GeneralPuzzleSolver {
 		return solver;
 	}
 
-        /**
-         * Calls the solver to solve the puzzle and prints the statistics
-         * @param solver
-         * @param rounds 
-         */
+	/**
+	 * Calls the solver to solve the puzzle and prints the statistics
+	 * 
+	 * @param solver
+	 * @param rounds
+	 */
 	public static void solve(ConstraintBasedLocalSearch solver, int rounds) {
 		ArrayList<Result> results = new ArrayList<>();
 		for (int i = 0; i < rounds; i++) {
@@ -158,6 +148,10 @@ public class GeneralPuzzleSolver {
 
 	}
 
+	/**
+	 * Print stastistics for given repeated results.
+	 * @param results
+	 */
 	private static void printStatisticsForRounds(List<Result> results) {
 		ArrayList<Integer> steps = new ArrayList<>();
 		ArrayList<Double> qualities = new ArrayList<>();
@@ -186,17 +180,20 @@ public class GeneralPuzzleSolver {
 		System.out.println("--------------------------------------");
 	}
 
+	/**
+	 * Print detailed statistics for given repeated results.
+	 * @param results
+	 */
 	private static void printStatistics(ArrayList<Result> results) {
 		System.out.println("--------------------------------------");
 		System.out.println("All " + rounds + " runs");
 		printStatisticsForRounds(results);
 		int bestOfRuns = 20;
-		if (results.size() > bestOfRuns) {
+		if (results.size() > bestOfRuns) { // do best-of-run statiscits
 			Collections.sort(results);
-
 			Collections.reverse(results);
 			System.out.println(bestOfRuns + " best-of-runs");
-			printStatisticsForRounds(results.subList(0, 20));
+			printStatisticsForRounds(results.subList(0, bestOfRuns));
 		}
 	}
 
@@ -212,7 +209,7 @@ public class GeneralPuzzleSolver {
 
 		while ((c = g.getopt()) != -1) {
 			switch (c) {
-			case 'p':
+			case 'p': // puzzle selection
 				arg = g.getOptarg();
 				if (arg == null) {
 					retval = false;
@@ -227,14 +224,14 @@ public class GeneralPuzzleSolver {
 				}
 				break;
 			//
-			case 'l':
+			case 'l': // level selection
 				arg = g.getOptarg();
 				if (arg == null) {
 					retval = false;
 				}
 				level = new String(arg);
 				break;
-			case 'r':
+			case 'r': // rounds count
 				arg = g.getOptarg();
 				if (arg == null) {
 					retval = false;
@@ -243,15 +240,15 @@ public class GeneralPuzzleSolver {
 				break;
 			//
 
-			case 'v':
+			case 'v': // visualize flag
 				visualize = true;
 				break;
 
-			case 'h':
+			case 'h': // help
 				retval = false;
 				break;
 			//
-			case 'm':
+			case 'm': // method
 				arg = g.getOptarg();
 				if (arg == null) {
 					retval = false;
@@ -295,6 +292,12 @@ public class GeneralPuzzleSolver {
 
 	}
 
+	/**
+	 * Prints usage of this program ti stdout.
+	 * 
+	 * @param progname
+	 *            name of this program
+	 */
 	private static void usage(String progname) {
 		System.out.println("USAGE: " + progname + " [-v] [-p PUZZLE] "
 				+ "-l LEVEL [-r ROUNDS] [-m METHOD]");
@@ -326,6 +329,13 @@ public class GeneralPuzzleSolver {
 
 	}
 
+	/**
+	 * Returns a mean (or average) of given list of numbers.
+	 * 
+	 * @param list
+	 *            list of numbers
+	 * @return mean
+	 */
 	private static <T extends Number> double getMean(ArrayList<T> list) {
 		double mean = 0;
 		for (T i : list) {
@@ -334,6 +344,13 @@ public class GeneralPuzzleSolver {
 		return mean / list.size();
 	}
 
+	/**
+	 * Function counts standard deviation.
+	 * 
+	 * @param list
+	 *            list of number
+	 * @return standard deviation
+	 */
 	private static <T extends Number> double getStandardDeviation(
 			ArrayList<T> list) {
 		double mean = getMean(list);

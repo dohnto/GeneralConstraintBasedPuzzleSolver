@@ -26,7 +26,7 @@ public abstract class MinConflicts extends ConstraintBasedLocalSearch {
      * @return List of variables with assigned values representing the solution.
      */
     @Override
-    public ArrayList solve(int maxIterations) {                                                
+    public ArrayList<Integer> solve(int maxIterations) {                                                
         // Initial puzzle state - randomly initializes the variables
         state = stateManager.getInitialState();
         

@@ -2,7 +2,6 @@ package gps.solver;
 
 import gps.Range;
 import gps.statemanager.kqueens.KQueensStateManager;
-import java.util.ArrayList;
 
 public class KQueensMC extends MinConflicts {    
     
